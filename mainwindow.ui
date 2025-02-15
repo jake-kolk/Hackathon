@@ -50,16 +50,27 @@
      </rect>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>230</y>
-      <width>44</width>
-      <height>29</height>
+      <x>-8</x>
+      <y>-1</y>
+      <width>1331</width>
+      <height>661</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">
+background-image: url(:/new/images/books.jpg);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
+   <zorder>label</zorder>
+   <zorder>promptTextBox</zorder>
+   <zorder>sendButton</zorder>
+   <zorder>responseBox</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionFile">

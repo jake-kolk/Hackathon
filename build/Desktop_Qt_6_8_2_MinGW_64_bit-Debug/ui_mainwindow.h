@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
@@ -28,6 +29,7 @@ public:
     QTextBrowser *promptTextBox;
     QPushButton *sendButton;
     QTextBrowser *responseBox;
+    QLabel *label;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -43,13 +45,23 @@ public:
         promptTextBox = new QTextBrowser(centralwidget);
         promptTextBox->setObjectName("promptTextBox");
         promptTextBox->setGeometry(QRect(20, 540, 901, 71));
+        promptTextBox->setReadOnly(false);
         sendButton = new QPushButton(centralwidget);
         sendButton->setObjectName("sendButton");
         sendButton->setGeometry(QRect(1160, 540, 131, 71));
         responseBox = new QTextBrowser(centralwidget);
         responseBox->setObjectName("responseBox");
         responseBox->setGeometry(QRect(15, 11, 1281, 511));
+        label = new QLabel(centralwidget);
+        label->setObjectName("label");
+        label->setGeometry(QRect(-8, -1, 1331, 661));
+        label->setStyleSheet(QString::fromUtf8("\n"
+"background-image: url(:/new/images/books.jpg);"));
         MainWindow->setCentralWidget(centralwidget);
+        label->raise();
+        promptTextBox->raise();
+        sendButton->raise();
+        responseBox->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
         MainWindow->setStatusBar(statusbar);
@@ -67,6 +79,7 @@ public:
         actionFile->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+F", nullptr));
 #endif // QT_CONFIG(shortcut)
         sendButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        label->setText(QString());
     } // retranslateUi
 
 };
