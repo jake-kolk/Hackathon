@@ -38,7 +38,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+//comment for testing
 void MainWindow::on_sendButton_clicked()
 {
     QString prompt = ui->promptTextBox->toPlainText();
