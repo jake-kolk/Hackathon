@@ -1,3 +1,4 @@
+
 #include "apicaller.h"
 
 ApiCaller::ApiCaller(QObject *parent) : QObject(parent)
@@ -79,5 +80,4 @@ void ApiCaller::onReplyReceived(QNetworkReply *reply) {
 
     reply->deleteLater();
 }
-
 
