@@ -62,6 +62,9 @@ MainWindow::MainWindow(QWidget *parent)
         "   background-color: #2980b9;"
         "}"
         );
+    ApiCaller *caller = new ApiCaller(this);
+    apiCaller = caller;
+    connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
 }
 
 MainWindow::~MainWindow() {
@@ -69,25 +72,21 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_sendButton_clicked() {
+
     QString prompt = ui->promptTextBox->toPlainText();
-    ApiCaller *caller = new ApiCaller(this);
-    QString userDialog = "You: ";
+    QString userDialog = "\nYou: ";
     userDialog.append(prompt);
     userDialog.append("\n");
     //Put entered text into the chat window
     ui->responseBox->append(userDialog);
-    //connect APICaller::ResponseReceved to MainWindow::onApiResponseREceved
-    connect(caller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
     // Call OpenRouter API
-    caller->makeRequest(prompt);
+    apiCaller->makeRequest(prompt);
 
 }
 
 void MainWindow::onApiResponseReceived(QString response) {//append response to dialog box
-    QString responseDialog = "AI: ";
-    responseDialog.append(response);
-    responseDialog.append("\n");
-    ui->responseBox->append(responseDialog);
+    ui->responseBox->append(response);
+    qDebug() << "-------------------------response printed----------------------------";
 }
 
 void MainWindow::on_actionFile_triggered()
