@@ -27,7 +27,7 @@ private slots:
 
 private:
     QNetworkAccessManager manager;
-    const QString apiKey = "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";
+    const QString apiKey = "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";
     QString context;
 };
 //new key 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
