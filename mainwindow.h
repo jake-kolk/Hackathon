@@ -1,16 +1,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QTimer>
-#include <cstdlib>
-#include <QGraphicsScene>
-#include <iostream>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
+#include <QMainWindow>
 #include <QProcess>
-#include "storymediacontainer.h"
+#include <QTimer>
 #include "apicaller.h"
 #include "apikeyconfigwindow.h"
+#include "storymediacontainer.h"
+#include <cstdlib>
+#include <iostream>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -35,7 +35,6 @@ private slots:
     void prevImage();
     void updateImage();
 
-
 private:
     Ui::MainWindow *ui;
     ApiCaller *apiCaller; // Make ApiCaller persistent
@@ -45,11 +44,10 @@ private:
     void clearResponseWindow();
     StoryMediaContainer mediaContainer; // Store images & text
     int currentIndex = 0;
-    QGraphicsScene* scene;
+    QGraphicsScene *scene;
 };
 
 #endif // MAINWINDOW_H
-
 
 //cpp
 /*
@@ -88,4 +86,3 @@ signals:
 
 #endif // ENTERAPIKEYWINDOW_H
 */
-

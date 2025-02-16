@@ -1,18 +1,18 @@
 #ifndef STORYMEDIACONTAINER_H
 #define STORYMEDIACONTAINER_H
 
-#include <vector>
-#include <QString>
-#include <QImage>
 #include <QDebug>
-class StoryMediaContainer {
+#include <QImage>
+#include <QString>
+#include <vector>
+class StoryMediaContainer
+{
 public:
     // Constructor
     StoryMediaContainer() = default;
 
     // Add an image with an optional caption
     void addMedia(const QImage &image);
-
 
     // Get image by index
     QImage getImage(int index);
@@ -21,7 +21,7 @@ public:
     // Get the total number of media items
     int getSize();
 
-    QImage* scanImage(QString filepath);
+    QImage *scanImage(QString filepath);
 
     void addQString(QString string);
 
@@ -30,4 +30,4 @@ private:
     std::vector<QString> pageText;
 };
 
-#endif  STORYMEDIACONTAINER
+#endif STORYMEDIACONTAINER

@@ -1,13 +1,12 @@
 #include "apicaller.h"
 #include "apikeyconfigwindow.h"
 
-
-ApiCaller::ApiCaller(QObject *parent, QString inputapiKey) : QObject(parent)
+ApiCaller::ApiCaller(QObject *parent, QString inputapiKey)
+    : QObject(parent)
 
 {
     apiKey = inputapiKey;
     connect(&manager, &QNetworkAccessManager::finished, this, &ApiCaller::onReplyReceived);
-
 }
 
 void ApiCaller::makeRequest(const QString &prompt)
@@ -33,12 +32,12 @@ void ApiCaller::makeRequest(const QString &prompt)
     json["model"] = "mistralai/mistral-7b-instruct:free";
 
     json["messages"] = QJsonArray{
-    QJsonObject{{"role", "system"}, {"content",
-    "Your goal is to tell a good story that is 750 words "
-    "long. divide the story into 5 pages. at the end of each page put a * character. If content is empty, make the story about something random"}},
-    QJsonObject{{"role", "user"}, {"content", context}}
-    };
-
+        QJsonObject{{"role", "system"},
+                    {"content",
+                     "Your goal is to tell a good story that is 750 words "
+                     "long. divide the story into 5 pages. at the end of each page put a * "
+                     "character. If content is empty, make the story about something random"}},
+        QJsonObject{{"role", "user"}, {"content", context}}};
 
     //json["max_tokens"] = 4000;
 
@@ -63,7 +62,6 @@ void ApiCaller::onReplyReceived(QNetworkReply *reply)
         QByteArray responseData = reply->readAll();
 
         //qDebug() << "Raw API Response:" << responseData;  // Log raw response
-
 
         QJsonDocument jsonDoc = QJsonDocument::fromJson(responseData);
         if (jsonDoc.isObject()) {
@@ -93,7 +91,8 @@ void ApiCaller::onReplyReceived(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-void ApiCaller::saveApiKey(QString apiKey) {
+void ApiCaller::saveApiKey(QString apiKey)
+{
     // Create a JSON object to hold the key-value pair
     QJsonObject json;
     json["api_key"] = apiKey;
@@ -112,7 +111,8 @@ void ApiCaller::saveApiKey(QString apiKey) {
     file.write(doc.toJson());
     file.close();
 }
-void ApiCaller::clearApiKey() {
+void ApiCaller::clearApiKey()
+{
     // Create a JSON object to hold the key-value pair
     QJsonObject json;
     json["api_key"] = "";
@@ -133,7 +133,8 @@ void ApiCaller::clearApiKey() {
     this->apiKey = "";
 }
 
-QString ApiCaller::loadApiKey() {
+QString ApiCaller::loadApiKey()
+{
     // Open the config file for reading
     QFile file("config.json");
     if (!file.open(QIODevice::ReadOnly)) {
@@ -171,6 +172,8 @@ void ApiCaller::onClearApiKeyButtonCLicked()
 
 bool ApiCaller::isApiKeyEmpty()
 {
-    if(this->apiKey == "") return true;
-    else return false;
+    if (this->apiKey == "")
+        return true;
+    else
+        return false;
 }

@@ -1,12 +1,11 @@
 #ifndef APIKEYCONFIGWINDOW_H
 #define APIKEYCONFIGWINDOW_H
 
+#include <QAbstractButton>
 #include <QDialog>
 #include <QMainWindow>
 #include <QTimer>
 #include <cstdlib>
-#include <QAbstractButton>
-
 
 namespace Ui {
 class ApiKeyConfigWindow;
@@ -30,4 +29,3 @@ private:
 };
 
 #endif // APIKEYCONFIGWINDOW_H
-
