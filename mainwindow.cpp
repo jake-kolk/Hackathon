@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFile>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -123,4 +124,22 @@ void MainWindow::on_actionFile_triggered()
 
 void MainWindow::clearResponseWindow(){
     ui->responseBox->clear();
+}
+
+void MainWindow::imageHandler()
+{
+    //wont be file, will be feed of images generated
+    QString filename = "xxxxx";
+    QLabel* lbl = new QLabel(this);
+    //for showing in center
+    lbl->setAlignment(Qt::AlignCenter);
+    QPixmap pix;
+
+    //if loaded okay
+    if(pix.load(filename))
+    {
+        //scaling
+        pix = pix.scaled(lbl->size(),Qt::KeepAspectRatio);
+        lbl->setPixmap(pix);
+    }
 }
