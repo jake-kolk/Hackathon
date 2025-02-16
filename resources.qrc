@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/new/images">
         <file>books.jpg</file>
+        <file>whitebackground.jpg</file>
     </qresource>
 </RCC>
