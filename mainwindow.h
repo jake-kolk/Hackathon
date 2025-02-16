@@ -4,14 +4,12 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <cstdlib>
-#include <QProcess>
+#include <QGraphicsScene>
 #include <iostream>
-#include <windows.h>
+#include <QGraphicsPixmapItem>
+#include "storymediacontainer.h"
 #include "apicaller.h"
 #include "apikeyconfigwindow.h"
-#include "storymediacontainer.h"
-#include "qgraphicsscene.h"
-
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -31,22 +29,22 @@ private slots:
     void onApiResponseReceived(QString response); // Slot to update UI
     void on_actionFile_triggered();
     void on_saveButton_clicked();
-    void imageHandler(QVector<QImage> images);
+    void imageHandler(StoryMediaContainer &container);
     void nextImage();
-    void updateImage();
     void prevImage();
+    void updateImage();
 
 
 private:
-    QVector<QImage> images; // Store images
-    int currentIndex = 0; // Track current image index
-    QGraphicsScene *scene; // Scene to display images
     Ui::MainWindow *ui;
     ApiCaller *apiCaller; // Make ApiCaller persistent
     std::vector<QString> responses;
     std::vector<QString> prompts;
     ApiKeyConfigWindow *apiKeyConfigWindow;
     void clearResponseWindow();
+    StoryMediaContainer mediaContainer; // Store images & text
+    int currentIndex = 0;
+    QGraphicsScene* scene;
 };
 
 #endif // MAINWINDOW_H
