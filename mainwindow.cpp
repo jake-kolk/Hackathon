@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QMenu>
 #include <QLabel>
+#include <QFileDialog>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -128,16 +129,21 @@ void MainWindow::on_sendButton_clicked()
 void MainWindow::on_saveButton_clicked()
 {
     QString saveStream = ui->responseBox->toPlainText();
-    //QString filepath = "newStory.txt";
-    QFile file("newStory.txt");
+
+    QString filePath = QFileDialog::getSaveFileName(this, "Save File", "newStory.txt", "Text Files (*.txt);;All Files (*)");
+    if (filePath.isEmpty()) return; // User canceled save
+
+    QFile file(filePath);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream stream(&file);
         stream << saveStream;
+        file.flush();  // Ensure data is written
         file.close();
-    } else
+        qDebug() << "Successfully wrote to file";
+    }
+    else
     {
-        // Handling an error
         qDebug() << "Failed to open file for writing:" << file.errorString();
     }
 }

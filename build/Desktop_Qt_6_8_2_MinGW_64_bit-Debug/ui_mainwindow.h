@@ -28,7 +28,6 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
-    QAction *actionFile;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QWidget *gridWidget;
@@ -40,6 +39,7 @@ public:
     QPushButton *pushButton;
     QPushButton *sendButton;
     QGraphicsView *graphicsView;
+    QPushButton *pushButton_2;
     QStatusBar *statusbar;
     QMenuBar *menuBar;
     QMenu *menuSave;
@@ -51,9 +51,6 @@ public:
             MainWindow->setObjectName("MainWindow");
         MainWindow->resize(1178, 668);
         MainWindow->setAutoFillBackground(false);
-        actionFile = new QAction(MainWindow);
-        actionFile->setObjectName("actionFile");
-        actionFile->setMenuRole(QAction::MenuRole::ApplicationSpecificRole);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         QSizePolicy sizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
@@ -110,6 +107,11 @@ public:
 
         gridLayout->addWidget(graphicsView, 2, 4, 1, 1);
 
+        pushButton_2 = new QPushButton(centralwidget);
+        pushButton_2->setObjectName("pushButton_2");
+
+        gridLayout->addWidget(pushButton_2, 3, 3, 1, 1);
+
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
@@ -134,10 +136,6 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        actionFile->setText(QCoreApplication::translate("MainWindow", "File", nullptr));
-#if QT_CONFIG(shortcut)
-        actionFile->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+F", nullptr));
-#endif // QT_CONFIG(shortcut)
         textBrowser->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -166,8 +164,9 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "Next...", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "Next ->", nullptr));
         sendButton->setText(QCoreApplication::translate("MainWindow", "Make your story!", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("MainWindow", "<- Back", nullptr));
         menuSave->setTitle(QCoreApplication::translate("MainWindow", "Save", nullptr));
         menuClear->setTitle(QCoreApplication::translate("MainWindow", "Clear", nullptr));
     } // retranslateUi
