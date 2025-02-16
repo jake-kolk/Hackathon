@@ -12,14 +12,13 @@
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTextBrowser>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -29,69 +28,57 @@ class Ui_MainWindow
 public:
     QAction *actionFile;
     QWidget *centralwidget;
-    QTabWidget *tabContainer;
-    QWidget *tab;
-    QTextBrowser *responseBox;
-    QTextEdit *promptTextBox;
+    QTextBrowser *promptTextBox;
     QPushButton *sendButton;
-    QWidget *tab_2;
-    QMenuBar *menubar;
-    QMenu *menuFile;
-    QMenu *menuEdit;
+    QTextBrowser *responseBox;
+    QLabel *label;
     QStatusBar *statusbar;
+    QMenuBar *menuBar;
+    QMenu *menuFile;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(462, 401);
+        MainWindow->resize(1318, 660);
         actionFile = new QAction(MainWindow);
         actionFile->setObjectName("actionFile");
         actionFile->setMenuRole(QAction::MenuRole::ApplicationSpecificRole);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        tabContainer = new QTabWidget(centralwidget);
-        tabContainer->setObjectName("tabContainer");
-        tabContainer->setGeometry(QRect(6, 0, 451, 351));
-        tab = new QWidget();
-        tab->setObjectName("tab");
-        responseBox = new QTextBrowser(tab);
-        responseBox->setObjectName("responseBox");
-        responseBox->setGeometry(QRect(10, 10, 421, 221));
-        responseBox->setMouseTracking(true);
-        responseBox->setFrameShadow(QFrame::Shadow::Raised);
-        promptTextBox = new QTextEdit(tab);
+        promptTextBox = new QTextBrowser(centralwidget);
         promptTextBox->setObjectName("promptTextBox");
-        promptTextBox->setGeometry(QRect(10, 240, 351, 70));
-        promptTextBox->setAutoFillBackground(false);
-        promptTextBox->setFrameShape(QFrame::Shape::StyledPanel);
-        sendButton = new QPushButton(tab);
+        promptTextBox->setGeometry(QRect(20, 540, 901, 71));
+        promptTextBox->setReadOnly(false);
+        sendButton = new QPushButton(centralwidget);
         sendButton->setObjectName("sendButton");
-        sendButton->setGeometry(QRect(370, 240, 71, 71));
-        tabContainer->addTab(tab, QString());
-        tab_2 = new QWidget();
-        tab_2->setObjectName("tab_2");
-        tabContainer->addTab(tab_2, QString());
+        sendButton->setGeometry(QRect(950, 540, 131, 71));
+        responseBox = new QTextBrowser(centralwidget);
+        responseBox->setObjectName("responseBox");
+        responseBox->setGeometry(QRect(15, 11, 1281, 511));
+        label = new QLabel(centralwidget);
+        label->setObjectName("label");
+        label->setGeometry(QRect(-8, -1, 1331, 661));
+        label->setStyleSheet(QString::fromUtf8("\n"
+"background-image: url(:/new/images/books.jpg);"));
         MainWindow->setCentralWidget(centralwidget);
-        menubar = new QMenuBar(MainWindow);
-        menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 462, 21));
-        menuFile = new QMenu(menubar);
-        menuFile->setObjectName("menuFile");
-        menuEdit = new QMenu(menubar);
-        menuEdit->setObjectName("menuEdit");
-        MainWindow->setMenuBar(menubar);
+        label->raise();
+        promptTextBox->raise();
+        sendButton->raise();
+        responseBox->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
         MainWindow->setStatusBar(statusbar);
+        menuBar = new QMenuBar(MainWindow);
+        menuBar->setObjectName("menuBar");
+        menuBar->setGeometry(QRect(0, 0, 1318, 21));
+        menuFile = new QMenu(menuBar);
+        menuFile->setObjectName("menuFile");
+        MainWindow->setMenuBar(menuBar);
 
-        menubar->addAction(menuFile->menuAction());
-        menubar->addAction(menuEdit->menuAction());
+        menuBar->addAction(menuFile->menuAction());
 
         retranslateUi(MainWindow);
-
-        tabContainer->setCurrentIndex(0);
-
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -103,11 +90,9 @@ public:
 #if QT_CONFIG(shortcut)
         actionFile->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+F", nullptr));
 #endif // QT_CONFIG(shortcut)
-        sendButton->setText(QCoreApplication::translate("MainWindow", "Send", nullptr));
-        tabContainer->setTabText(tabContainer->indexOf(tab), QCoreApplication::translate("MainWindow", "Tab 1", nullptr));
-        tabContainer->setTabText(tabContainer->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Tab 2", nullptr));
+        sendButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        label->setText(QString());
         menuFile->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
-        menuEdit->setTitle(QCoreApplication::translate("MainWindow", "Edit", nullptr));
     } // retranslateUi
 
 };

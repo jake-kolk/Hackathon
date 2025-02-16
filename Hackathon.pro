@@ -11,17 +11,23 @@ CONFIG += c++17
 
 SOURCES += \
     apicaller.cpp \
+    apikeyconfigwindow.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     apicaller.h \
+    apikeyconfigwindow.h \
     mainwindow.h
 
 FORMS += \
+    apikeyconfigwindow.ui \
     mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources.qrc
