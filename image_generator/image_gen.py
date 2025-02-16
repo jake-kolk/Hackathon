@@ -22,7 +22,7 @@ headers = {
 }
 
 # Function to generate image from prompt
-def generate_image(prompt):
+def generate_image(filename, prompt):
     payload = {
         "prompt": prompt,
         "num_images": 1,  # Number of images to generate
@@ -37,7 +37,6 @@ def generate_image(prompt):
         image_bytes = base64.b64decode(encoded_str)
         image_stream = BytesIO(image_bytes)
         image = Image.open(image_stream)
-        filename = "generated_image.jpeg"
         image.save(filename)
         print(f"Image saved as {filename}")
 
@@ -46,11 +45,12 @@ def generate_image(prompt):
         return None
 
 # Main function
-def main(prompt):
-    prompt = input("Enter a prompt to generate an image: ")
-    generate_image(prompt)
+def main(filename, prompt):
+    # prompt = input("Enter a prompt to generate an image: ")
+    generate_image(filename, prompt)
 
 
 if __name__ == "__main__":
-    arg = sys.argv[1]
-    main(arg)
+    filename = sys.argv[1]
+    prompt = sys.argv[2]
+    main(filename, prompt)
