@@ -89,17 +89,6 @@ background-image: url(:/new/images/books.jpg);</string>
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <action name="actionFile">
-   <property name="text">
-    <string>File</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+F</string>
-   </property>
-   <property name="menuRole">
-    <enum>QAction::MenuRole::ApplicationSpecificRole</enum>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections/>

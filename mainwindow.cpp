@@ -18,27 +18,62 @@ MainWindow::MainWindow(QWidget *parent)
         "   padding: 8px; "
         "   border: 2px solid gray; "
         "} "
-        "QTextBrowser::selection { background-color: darkgray; color: black; }");
 
-    ui->sendButton->setStyleSheet("QPushButton {"
-                                  "   border-radius: 35px; " // Half of the width/height
-                                  "   background-color: #3498db;"
-                                  "   color: white;"
-                                  "   font-size: 18px;"
-                                  "}"
-                                  "QPushButton:pressed {"
-                                  "   background-color: #2980b9;"
-                                  "}");
-    ApiCaller *caller = new ApiCaller(this);
-    apiCaller = caller;
+        "QTextBrowser::selection { background-color: darkgray; color: black; }"
+        );
+
+
+
+    //set prompt text box style
+    ui->promptTextBox->setStyleSheet(
+        "QTextEdit { "
+        "   background-color: #B0B0B0; "
+        "   color: black; "
+        "   border-radius: 10px; "
+        "   padding: 8px; "
+        "   border: 2px solid #707070; " // Darker border
+        "   selection-background-color: #909090; " // Highlight color for selected text
+        "} "
+        );
+    //set style sheet for send button
+
+    ui->sendButton->setStyleSheet(
+        "QPushButton {"
+        "   border-radius: 35px; "  // Half of the width/height
+        "   background-color: #3498db;"
+        "   color: white;"
+        "   font-size: 18px;"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #2980b9;"
+        "}"
+        );
+    //init ApiCaller
+    ApiCaller *caller = new ApiCaller(this, "");
+    this->apiCaller = caller;
+    //Connect ApiCaller response receved signal to MainWindow so MainWindow can display results
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
+    //This loads the Api key and send it to caller
+    QString apiKey = caller->loadApiKey();
+    if(apiKey == "")//if no key is loaded, open key config window
+    {
+        qDebug() << "No API key loaded....";
+        //init ApiKeyConfigWindow
+        apiKeyConfigWindow = new ApiKeyConfigWindow(this);
+        //connect ApiKeyConfig key changes signal to ApiCaller so it can update json and update ApiCaller attribute
+        connect(apiKeyConfigWindow, &ApiKeyConfigWindow::apiKeySet, apiCaller, &ApiCaller::onApiKeyChanged);
+        apiKeyConfigWindow->show();
+
+    }else{
+        qDebug() << "Key loaded: " << apiKey;
+    }
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+//comment for testing
 void MainWindow::on_sendButton_clicked()
 {
     QString prompt = ui->promptTextBox->toPlainText();
@@ -57,4 +92,10 @@ void MainWindow::onApiResponseReceived(QString response)
     qDebug() << "-------------------------response printed----------------------------";
 }
 
-void MainWindow::on_actionFile_triggered() {}
+
+
+void MainWindow::on_actionFile_triggered()
+{
+    qDebug() << "FILE HIT";
+}
+
