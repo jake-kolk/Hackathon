@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::nextImage);
 
+    connect(ui->pushButton_2, &QPushButton::clicked, this, &MainWindow::prevImage);
 
     // Create actionSave
     QAction *actionClearApiKey = new QAction("Clear API Key", this);
@@ -200,6 +201,15 @@ void MainWindow::nextImage()
     if (currentIndex < images.size() - 1)
     {
         currentIndex++; // Move to the next image
+        updateImage();  // Refresh display
+    }
+}
+
+void MainWindow::prevImage()
+{
+    if (currentIndex > 0) // Ensure we don’t go below 0
+    {
+        currentIndex--; // Move to the previous image
         updateImage();  // Refresh display
     }
 }

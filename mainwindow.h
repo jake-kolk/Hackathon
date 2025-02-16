@@ -30,6 +30,7 @@ private slots:
     void imageHandler(QVector<QImage> images);
     void nextImage();
     void updateImage();
+    void prevImage();
 
 
 private:
