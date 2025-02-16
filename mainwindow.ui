@@ -106,7 +106,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </widget>
     </item>
    </layout>
-
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -115,34 +114,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <x>0</x>
      <y>0</y>
      <width>1178</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuSave">
-    <property name="title">
-     <string>Save</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuClear">
-    <property name="title">
-     <string>Clear</string>
-    </property>
-   </widget>
-   <addaction name="menuSave"/>
-   <addaction name="menuClear"/>
-
   </widget>
-  <action name="actionFile">
-   <property name="text">
-    <string>File</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+F</string>
-   </property>
-   <property name="menuRole">
-    <enum>QAction::MenuRole::ApplicationSpecificRole</enum>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections/>

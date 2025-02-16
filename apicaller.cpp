@@ -130,6 +130,7 @@ void ApiCaller::clearApiKey() {
     // Write the JSON document to the file
     file.write(doc.toJson());
     file.close();
+    this->apiKey = "";
 }
 
 QString ApiCaller::loadApiKey() {
@@ -163,3 +164,13 @@ void ApiCaller::onApiKeyChanged(QString newApiKey)
     saveApiKey(newApiKey);
 }
 
+void ApiCaller::onClearApiKeyButtonCLicked()
+{
+    this->clearApiKey();
+}
+
+bool ApiCaller::isApiKeyEmpty()
+{
+    if(this->apiKey == "") return true;
+    else return false;
+}

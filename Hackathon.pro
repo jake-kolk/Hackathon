@@ -1,6 +1,8 @@
 QT       += core gui
 QT += network widgets
 QT += core network
+QT += multimedia
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -13,12 +15,14 @@ SOURCES += \
     apicaller.cpp \
     apikeyconfigwindow.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    storymediacontainer.cpp
 
 HEADERS += \
     apicaller.h \
     apikeyconfigwindow.h \
-    mainwindow.h
+    mainwindow.h \
+    storymediacontainer.h
 
 FORMS += \
     apikeyconfigwindow.ui \

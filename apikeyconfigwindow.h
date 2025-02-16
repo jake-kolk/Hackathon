@@ -23,7 +23,6 @@ signals:
     void apiKeySet(QString apiKey);
 private slots:
     void on_buttonBox_clicked(QAbstractButton *button);
-
     void on_OkButton_accepted();
 
 private:
@@ -31,3 +30,4 @@ private:
 };
 
 #endif // APIKEYCONFIGWINDOW_H
+

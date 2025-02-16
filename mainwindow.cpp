@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFile>
+#include <QMenu>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -8,9 +9,24 @@ MainWindow::MainWindow(QWidget *parent)
     , apiCaller(new ApiCaller(this)) // Persistent instance
 {
     ui->setupUi(this);
+
+    // Create Menu
+    QMenu *fileMenu = menuBar()->addMenu("File");
+
+    // Create actionSave
+    QAction *actionSave = new QAction("Save", this);
+    fileMenu->addAction(actionSave);
+    // Connect actionSave to slot
+    connect(actionSave, &QAction::triggered, this, &MainWindow::on_saveButton_clicked);
+
+    // Create actionSave
+    QAction *actionClearApiKey = new QAction("Clear API Key", this);
+    fileMenu->addAction(actionClearApiKey);
+    //connect action save is done lower so its linked to Apicaller (named caller) object
+
+
     //let the main window know when apicaller gets response
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
-
     //set response box color
     ui->responseBox->setStyleSheet(
         "QTextBrowser { "
@@ -53,8 +69,11 @@ MainWindow::MainWindow(QWidget *parent)
     //Connect ApiCaller response receved signal to MainWindow so MainWindow can display results
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
     //This loads the Api key and send it to caller
-    caller->clearApiKey();
     QString apiKey = caller->loadApiKey();
+
+    //connect action clearApiKey to slot
+    connect(actionClearApiKey, &QAction::triggered, caller, &ApiCaller::onClearApiKeyButtonCLicked);
+
     if(apiKey == "")//if no key is loaded, open key config window
     {
         qDebug() << "No API key loaded....";
@@ -77,7 +96,20 @@ MainWindow::~MainWindow()
 //comment for testing
 void MainWindow::on_sendButton_clicked()
 {
+    if(apiCaller->isApiKeyEmpty())//if no key is loaded, open key config window
+    {
+        qDebug() << "No API key loaded....";
+        //init ApiKeyConfigWindow
+        apiKeyConfigWindow = new ApiKeyConfigWindow(this);
+        //connect ApiKeyConfig key changes signal to ApiCaller so it can update json and update ApiCaller attribute
+        connect(apiKeyConfigWindow, &ApiKeyConfigWindow::apiKeySet, apiCaller, &ApiCaller::onApiKeyChanged);
+        apiKeyConfigWindow->setWindowTitle(QString("API key configuration"));
+        apiKeyConfigWindow->show();
+        return;
 
+    }else{
+        qDebug() << "on_sendButton_clicked(): WE HAVE API KEY ";
+    }
     QString prompt = ui->promptTextBox->toPlainText();
     //clear prompt box after pressing enter
     ui->promptTextBox->clear();
@@ -114,7 +146,6 @@ void MainWindow::onApiResponseReceived(QString response)
     ui->responseBox->append(response);
     qDebug() << "-------------------------response printed----------------------------";
 }
-
 
 
 void MainWindow::on_actionFile_triggered()
