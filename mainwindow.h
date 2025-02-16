@@ -4,10 +4,14 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <cstdlib>
+#include <QProcess>
 #include <iostream>
+#include <windows.h>
 #include "apicaller.h"
 #include "apikeyconfigwindow.h"
+#include "storymediacontainer.h"
 #include "qgraphicsscene.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
