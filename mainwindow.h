@@ -24,6 +24,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void nextImage();
+    void prevImage();
+    void nextText();
+    void prevText();
+    void updateImage();
+    int vectorPos = 0;;
+    int vectorLen = 0;
 
 private slots:
     void on_sendButton_clicked();
@@ -31,10 +38,12 @@ private slots:
     void on_actionFile_triggered();
     void on_saveButton_clicked();
     void imageHandler(StoryMediaContainer &container);
-    void nextImage();
-    void prevImage();
-    void updateImage();
 
+
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;

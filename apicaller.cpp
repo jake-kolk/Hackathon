@@ -70,7 +70,7 @@ void ApiCaller::onReplyReceived(QNetworkReply *reply)
             QJsonObject jsonObj = jsonDoc.object();
             QJsonArray choices = jsonObj["choices"].toArray();
             if (!choices.isEmpty()) {
-                QString contextFormattedReply = "System: ";
+                QString contextFormattedReply = "";
                 contextFormattedReply.append(
                     choices[0].toObject()["message"].toObject()["content"].toString());
                 context.append(contextFormattedReply);
