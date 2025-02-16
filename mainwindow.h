@@ -26,6 +26,7 @@ private slots:
     void onApiResponseReceived(QString response); // Slot to update UI
     void on_actionFile_triggered();
     void on_saveButton_clicked();
+    void imageHandler();
 
 
 private:
