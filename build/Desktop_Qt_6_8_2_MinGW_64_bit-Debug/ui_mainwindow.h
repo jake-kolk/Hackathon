@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
@@ -38,6 +39,8 @@ public:
     QTextBrowser *textBrowser;
     QStatusBar *statusbar;
     QMenuBar *menuBar;
+    QMenu *menuSave;
+    QMenu *menuClear;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -56,7 +59,6 @@ public:
         sizePolicy.setHeightForWidth(centralwidget->sizePolicy().hasHeightForWidth());
         centralwidget->setSizePolicy(sizePolicy);
         centralwidget->setMaximumSize(QSize(16777215, 16777215));
-        centralwidget->setStyleSheet(QString::fromUtf8("background-image: url(:/new/images/books.jpg);"));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName("gridLayout");
         verticalLayout = new QVBoxLayout();
@@ -88,7 +90,7 @@ public:
         textBrowser = new QTextBrowser(gridWidget);
         textBrowser->setObjectName("textBrowser");
         textBrowser->setMinimumSize(QSize(0, 192));
-        textBrowser->setAutoFillBackground(true);
+        textBrowser->setAutoFillBackground(false);
 
         gridLayout_2->addWidget(textBrowser, 1, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter);
 
@@ -102,7 +104,14 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName("menuBar");
         menuBar->setGeometry(QRect(0, 0, 1178, 25));
+        menuSave = new QMenu(menuBar);
+        menuSave->setObjectName("menuSave");
+        menuClear = new QMenu(menuBar);
+        menuClear->setObjectName("menuClear");
         MainWindow->setMenuBar(menuBar);
+
+        menuBar->addAction(menuSave->menuAction());
+        menuBar->addAction(menuClear->menuAction());
 
         retranslateUi(MainWindow);
 
@@ -116,7 +125,37 @@ public:
 #if QT_CONFIG(shortcut)
         actionFile->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+F", nullptr));
 #endif // QT_CONFIG(shortcut)
-        sendButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        promptTextBox->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
+        sendButton->setText(QCoreApplication::translate("MainWindow", "Make your story!", nullptr));
+        textBrowser->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt; font-weight:700; text-decoration: underline;\">User Manual:</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt; font-weight:700; text-decoration: underline;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right"
+                        ":0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">Enter a topic for your story in the textbox below.</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">and click &quot;send&quot;</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">If you would like to save the story generated as</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">a .txt file click the &quot;save&quot; button</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; mar"
+                        "gin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">If you would like to clear the story hit &quot;Clear&quot;</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p></body></html>", nullptr));
+        menuSave->setTitle(QCoreApplication::translate("MainWindow", "Save", nullptr));
+        menuClear->setTitle(QCoreApplication::translate("MainWindow", "Clear", nullptr));
     } // retranslateUi
 
 };

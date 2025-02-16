@@ -116,7 +116,8 @@ compiler_rcc_clean:
 	-$(DEL_FILE) release\qrc_resources.cpp
 release/qrc_resources.cpp: ../../resources.qrc \
 		C:/Qt2/6.8.2/mingw_64/bin/rcc.exe \
-		../../books.jpg
+		../../books.jpg \
+		../../whitebackground.jpg
 	C:\Qt2\6.8.2\mingw_64\bin\rcc.exe -name resources --no-zstd ..\..\resources.qrc -o release\qrc_resources.cpp
 
 compiler_moc_predefs_make_all: release/moc_predefs.h
@@ -1222,7 +1223,24 @@ release/apikeyconfigwindow.o: ../../apikeyconfigwindow.cpp ../../apikeyconfigwin
 		C:/Qt2/6.8.2/mingw_64/include/QtCore/qbasictimer.h \
 		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QAbstractButton \
 		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qabstractbutton.h \
-		ui_apikeyconfigwindow.h
+		ui_apikeyconfigwindow.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtCore/QVariant \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QApplication \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qapplication.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QDialogButtonBox \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QLabel \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtGui/qpicture.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtGui/qtextdocument.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QTextEdit \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qtextedit.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtGui/qtextoption.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtGui/qtextcursor.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtGui/qtextformat.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtGui/qpen.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\apikeyconfigwindow.o ..\..\apikeyconfigwindow.cpp
 
 release/main.o: ../../main.cpp ../../mainwindow.h \
@@ -1723,11 +1741,15 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt2/6.8.2/mingw_64/include/QtGui/QAction \
 		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt2/6.8.2/mingw_64/include/QtGui/qpicture.h \
-		C:/Qt2/6.8.2/mingw_64/include/QtGui/qtextdocument.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QGridLayout \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qlayout.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qlayoutitem.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qboxlayout.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QMenu \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qmenu.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QMenuBar \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qmenubar.h \
 		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QPushButton \
 		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QStatusBar \
@@ -1736,10 +1758,13 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qtextbrowser.h \
 		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qtextedit.h \
 		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtGui/qtextdocument.h \
 		C:/Qt2/6.8.2/mingw_64/include/QtGui/qtextoption.h \
 		C:/Qt2/6.8.2/mingw_64/include/QtGui/qtextcursor.h \
 		C:/Qt2/6.8.2/mingw_64/include/QtGui/qtextformat.h \
 		C:/Qt2/6.8.2/mingw_64/include/QtGui/qpen.h \
+		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QVBoxLayout \
 		C:/Qt2/6.8.2/mingw_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o ..\..\mainwindow.cpp
 
