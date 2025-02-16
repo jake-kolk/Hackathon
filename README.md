@@ -30,9 +30,7 @@ APIs & tools: openrouter API, Cloudflare's flux-1-schnell API, coqui-tts vits mo
 |Name|Contribution|Github|
 |----|----|----|
 |Khoa|implement API calls|@KhoaTa06|
-|----|----|----|
 |Gavin|
-|----|----|----|
 |Jake|
 
 
