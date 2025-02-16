@@ -11,14 +11,17 @@ CONFIG += c++17
 
 SOURCES += \
     apicaller.cpp \
+    apikeyconfigwindow.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     apicaller.h \
+    apikeyconfigwindow.h \
     mainwindow.h
 
 FORMS += \
+    apikeyconfigwindow.ui \
     mainwindow.ui
 
 # Default rules for deployment.

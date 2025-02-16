@@ -18,19 +18,76 @@ MainWindow::MainWindow(QWidget *parent)
         "   padding: 8px; "
         "   border: 2px solid gray; "
         "} "
-        "QTextBrowser::selection { background-color: darkgray; color: black; }");
 
-    ui->sendButton->setStyleSheet("QPushButton {"
-                                  "   border-radius: 35px; " // Half of the width/height
-                                  "   background-color: #3498db;"
-                                  "   color: white;"
-                                  "   font-size: 18px;"
-                                  "}"
-                                  "QPushButton:pressed {"
-                                  "   background-color: #2980b9;"
-                                  "}");
-    ApiCaller *caller = new ApiCaller(this);
+        "QTextBrowser::selection { background-color: darkgray; color: black; }"
+        );
+
+    //set tab container color
+    ui->tabContainer->setStyleSheet(
+        "QTabBar::tab { "
+        "   height: 10px; "
+        "   padding: 8px; "
+        "   background: #1E2E2E; "
+        "   color: white; "
+        "   border-top-left-radius: 10px; "
+       // "   border-bottom-right-radius: 10px; "
+        "   border-top-right-radius: 10px; "
+       // "   border: 2px solid #3B4B4B; "
+        "} "
+        "QTabBar::tab:selected { background: #3B4B4B; } "
+        "QTabBar::tab:hover { background: #465656; } "
+        );
+    ui->tabContainer->setTabText(0, "\"ChatGPT\"");  // Changes the first tab's title
+    ui->tabContainer->setTabText(1, "\"DeepSeek\"");
+    //set prompt text box style
+    ui->promptTextBox->setStyleSheet(
+        "QTextEdit { "
+        "   background-color: #B0B0B0; "
+        "   color: black; "
+        "   border-radius: 10px; "
+        "   padding: 8px; "
+        "   border: 2px solid #707070; " // Darker border
+        "   selection-background-color: #909090; " // Highlight color for selected text
+        "} "
+        );
+    //set style sheet for send button
+
+    ui->sendButton->setStyleSheet(
+        "QPushButton {"
+        "   border-radius: 35px; "  // Half of the width/height
+        "   background-color: #3498db;"
+        "   color: white;"
+        "   font-size: 18px;"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #2980b9;"
+        "}"
+        );
+    //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
+    /*
+    if (_putenv("API_KEY=") == 0) {
+        qDebug() << "Environment variable set successfully.\n";
+    } else {
+        qDebug() << "Failed to set environment variable.\n";
+    }
+*/
+    QString apiKey = std::getenv("API_KEY") ? QString::fromUtf8(std::getenv("API_KEY")) : QString();
+    if (apiKey.isEmpty() != true) {
+        qDebug() << "API Key:" << apiKey;
+    } else {
+        qDebug() << "No API key";
+        apiKeyConfigWindow = new ApiKeyConfigWindow(this);
+
+        // Connect the signal from ApiKeyConfigWindow to the slot in MainWindow
+
+
+        apiKeyConfigWindow->show();
+    }
+
+    ApiCaller *caller = new ApiCaller(this, apiKey);
+
     apiCaller = caller;
+    connect(apiKeyConfigWindow, &ApiKeyConfigWindow::apiKeySet, apiCaller, &ApiCaller::onApiKeyChanged);
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
 }
 
@@ -57,4 +114,10 @@ void MainWindow::onApiResponseReceived(QString response)
     qDebug() << "-------------------------response printed----------------------------";
 }
 
-void MainWindow::on_actionFile_triggered() {}
+
+
+void MainWindow::on_actionFile_triggered()
+{
+
+}
+

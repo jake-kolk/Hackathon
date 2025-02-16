@@ -1,9 +1,14 @@
 #include "apicaller.h"
+#include "apikeyconfigwindow.h"
+#include <windows.h>
 
-ApiCaller::ApiCaller(QObject *parent)
-    : QObject(parent)
+
+ApiCaller::ApiCaller(QObject *parent, QString inputapiKey) : QObject(parent)
+
 {
+    apiKey = inputapiKey;
     connect(&manager, &QNetworkAccessManager::finished, this, &ApiCaller::onReplyReceived);
+
 }
 
 void ApiCaller::makeRequest(const QString &prompt)
@@ -27,11 +32,16 @@ void ApiCaller::makeRequest(const QString &prompt)
     formattedPrompt.append(" ");
     context.append(formattedPrompt);
     json["model"] = "mistralai/mistral-7b-instruct:free";
-    json["messages"] = QJsonArray{QJsonObject{{"role", "system"},
-                                              {"content", "You are a helpful assistant."}},
-                                  QJsonObject{{"role", "user"}, {"content", context}}};
 
-    json["max_tokens"] = 4000;
+    json["messages"] = QJsonArray{
+    QJsonObject{{"role", "system"}, {"content",
+    "Your goal is to tell a good story in 3800 characters "
+    "long. If content is empty, make the stary about something random"}},
+    QJsonObject{{"role", "user"}, {"content", context}}
+    };
+
+
+    //json["max_tokens"] = 4000;
 
     // Convert JSON to QByteArray
     QJsonDocument jsonDoc(json);
@@ -52,7 +62,9 @@ void ApiCaller::onReplyReceived(QNetworkReply *reply)
            "receved------------------------------------------");
     if (reply->error() == QNetworkReply::NoError) {
         QByteArray responseData = reply->readAll();
-        qDebug() << "Raw API Response:" << responseData; // Log raw response
+
+        //qDebug() << "Raw API Response:" << responseData;  // Log raw response
+
 
         QJsonDocument jsonDoc = QJsonDocument::fromJson(responseData);
         if (jsonDoc.isObject()) {
@@ -63,6 +75,7 @@ void ApiCaller::onReplyReceived(QNetworkReply *reply)
                 contextFormattedReply.append(
                     choices[0].toObject()["message"].toObject()["content"].toString());
                 context.append(contextFormattedReply);
+                qDebug() << contextFormattedReply;
                 qDebug("-------------------------ResponseRecevedEmitted----------------");
                 emit responseReceived(contextFormattedReply);
             } else {
@@ -80,3 +93,10 @@ void ApiCaller::onReplyReceived(QNetworkReply *reply)
 
     reply->deleteLater();
 }
+
+
+void ApiCaller::onApiKeyChanged(QString newApiKey)
+{
+    this->apiKey = newApiKey;
+}
+
