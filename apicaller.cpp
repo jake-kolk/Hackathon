@@ -160,6 +160,6 @@ QString ApiCaller::loadApiKey() {
 void ApiCaller::onApiKeyChanged(QString newApiKey)
 {
     this->apiKey = newApiKey;
-    //saveApiKey(newApiKey);
+    saveApiKey(newApiKey);
 }
 

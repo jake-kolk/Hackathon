@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Connect ApiCaller response receved signal to MainWindow so MainWindow can display results
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
     //This loads the Api key and send it to caller
+    caller->clearApiKey();
     QString apiKey = caller->loadApiKey();
     if(apiKey == "")//if no key is loaded, open key config window
     {
