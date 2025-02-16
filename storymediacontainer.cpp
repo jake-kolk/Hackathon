@@ -1,53 +1,42 @@
-//#include "storymediacontainer.h"
-//#include "StoryMediaContainer.h"
-/*
-StoryMediaContainer::StoryMediaContainer(QObject *parent)
-    : QObject(parent), player(new QMediaPlayer(this)) {
-    connect(player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
-        if (status == QMediaPlayer::LoadedMedia) {
-            emit mediaLoaded();
-        }
-    });
+#include "storymediacontainer.h"
 
-    connect(player, &QMediaPlayer::errorOccurred, this, [this]() {
-        emit mediaError(player->errorString());
-    });
-}
+void StoryMediaContainer::addMedia(const QImage &image) {
+    images.push_back(image);
+ }
 
-StoryMediaContainer::~StoryMediaContainer() {
-    delete player;
-}
-
-bool StoryMediaContainer::loadMedia(const QString &filePath) {
-    QFileInfo fileInfo(filePath);
-    if (!fileInfo.exists() || fileInfo.suffix().toLower() != "wav") {
-        emit mediaError("Invalid file or file does not exist.");
-        return false;
+    // Get image by index
+QImage StoryMediaContainer::getImage(int index) {
+    if (index >= 0 && index < images.size()) {
+        return images[index];
     }
-
-    this->filePath = filePath;
-    player->setSource(QUrl::fromLocalFile(filePath));
-    return true;
+    return QImage(); // Return an empty QImage if index is invalid
 }
 
-void StoryMediaContainer::play() {
-    if (player->source().isEmpty()) return;
-    player->play();
+    // Get the total number of media items
+int StoryMediaContainer::StoryMediaContainer::getSize()
+{
+    return images.size();
 }
 
-void StoryMediaContainer::pause() {
-    player->pause();
+QString StoryMediaContainer::getPageTextByIndex(int index)
+{
+    if(this->pageText.size() > index && index >= 0)
+    {
+        return this->pageText[index];
+    }
+    else return QString("");
+}
+QImage* StoryMediaContainer::scanImage(QString filepath)
+{
+    QImage* image = new QImage;
+    if(!image->load(filepath))
+    {
+        qDebug() << "Image failed to scan!";
+    }
+    return image;
 }
 
-void StoryMediaContainer::stop() {
-    player->stop();
+void StoryMediaContainer::addQString(QString inputString){
+    this->pageText.push_back(inputString);
+    return;
 }
-
-QString StoryMediaContainer::getFilePath() const {
-    return filePath;
-}
-
-qint64 StoryMediaContainer::getDuration() const {
-    return player->duration();
-}
-*/

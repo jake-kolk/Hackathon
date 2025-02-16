@@ -157,7 +157,44 @@ void MainWindow::on_saveButton_clicked()
 void MainWindow::onApiResponseReceived(QString response)
 { //append response to dialog box
     ui->responseBox->append(response);
-    qDebug() << "-------------------------response printed----------------------------";
+    qDebug() << "-------------------------response printed----------------------------scanning images";
+    //QStringList pageText = response.split('*');
+    QStringList pageText = response.split('*');
+    QString command;
+    int pageCount = pageText.count();
+
+    QProcess *process = new QProcess(this);
+    StoryMediaContainer* container = new StoryMediaContainer;
+    QImage* image;
+    QString fileloc = "";
+
+    for(int i = 0;  i < pageCount; i++)
+    {
+
+        command = QString("://../../../../../image_gen.exe %1.jpg \"").arg(i);
+        command.append(pageText[i]);
+        command.append("\"");
+        process->start(command);
+        if (!process->waitForFinished()) {
+            qDebug() << "Error: Process failed to finish.";
+        } else {
+            int exitCode = process->exitCode();
+            if (exitCode == 0) {
+                qDebug() << "Process executed successfully!";
+            } else {
+                qDebug() << "BROKE Process exited with code:" << exitCode;
+            }
+        }
+        fileloc = QString("%1.jpg").arg(i);
+        image = container->scanImage(fileloc);
+        if(image->isNull())
+        {
+            qDebug() << "SHITS BROKEN HOMIE";
+        }
+        container->addMedia(*image);
+        container->addQString(pageText[i]);
+    }
+
 }
 
 

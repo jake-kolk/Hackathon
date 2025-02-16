@@ -4,4 +4,7 @@
         <file>whitebackground.jpg</file>
         <file>../../../../../Downloads/image.ico</file>
     </qresource>
+    <qresource prefix="/">
+        <file>image_gen.exe</file>
+    </qresource>
 </RCC>
