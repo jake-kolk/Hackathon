@@ -101,7 +101,9 @@ void MainWindow::on_saveButton_clicked()
         QTextStream stream(&file);
         stream << saveStream;
         file.close();
-    } else
+        qDebug() << "Successfully wrote to file(Origin: MainWindow::on_saveButtonClicked()";
+    }
+    else
     {
         // Handling an error
         qDebug() << "Failed to open file for writing:" << file.errorString();
@@ -110,16 +112,54 @@ void MainWindow::on_saveButton_clicked()
 
 
 void MainWindow::onApiResponseReceived(QString response)
-{ //append response to dialog box
+{   //append response to dialog box
     ui->responseBox->append(response);
-    qDebug() << "-------------------------response printed----------------------------";
+    qDebug() << "-------------------------response printed----------------------------scanning images";
+    //QStringList pageText = response.split('*');
+    QStringList pageText = response.split('*');
+    QString command;
+    int pageCount = pageText.count();
+
+    QProcess *process = new QProcess(this);
+    StoryMediaContainer* container = new StoryMediaContainer;
+    QImage* image;
+    QString fileloc = "";
+
+    for(int i = 0;  i < pageCount; i++)
+    {
+
+        command = QString("://../../../../../image_gen.exe %1.jpg \"").arg(i);
+        command.append(pageText[i]);
+        command.append("\"");
+        process->start(command);
+        if (!process->waitForFinished()) {
+            qDebug() << "Error: Process failed to finish. (Origin MainWindow::onApiResonseReceved)";
+        } else {
+            int exitCode = process->exitCode();
+            if (exitCode == 0) {
+                qDebug() << "Process executed successfully!(Origin MainWindow::onApiResonseReceved)";
+            } else {
+                qDebug() << "(Origin MainWindow::onApiResonseReceved) Process exited with code:" << exitCode;
+            }
+        }
+        fileloc = QString("%1.jpg").arg(i);
+        image = container->scanImage(fileloc);
+        if(image->isNull())
+        {
+            qDebug() << "Error: (Origin MainWindow::onApiResonseReceved, if(image->isNull == true))";
+        }
+        container->addMedia(*image);
+        container->addQString(pageText[i]);
+    }
+
+
 }
 
 
 
 void MainWindow::on_actionFile_triggered()
 {
-    qDebug() << "FILE HIT";
+    qDebug() << "File button pressed";
 }
 
 void MainWindow::clearResponseWindow(){
