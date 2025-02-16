@@ -22,8 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
         "QTextBrowser::selection { background-color: darkgray; color: black; }"
         );
 
-  
-
     //set prompt text box style
     ui->promptTextBox->setStyleSheet(
         "QTextEdit { "
@@ -76,7 +74,10 @@ MainWindow::~MainWindow()
 //comment for testing
 void MainWindow::on_sendButton_clicked()
 {
+
     QString prompt = ui->promptTextBox->toPlainText();
+    //clear prompt box after pressing enter
+    ui->promptTextBox->clear();
     QString userDialog = "\nYou: ";
     userDialog.append(prompt);
     userDialog.append("\n");
@@ -99,3 +100,6 @@ void MainWindow::on_actionFile_triggered()
     qDebug() << "FILE HIT";
 }
 
+void MainWindow::clearResponseWindow(){
+    ui->responseBox->clear();
+}
