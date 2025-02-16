@@ -1,9 +1,10 @@
-
 #include "apicaller.h"
 #include "apikeyconfigwindow.h"
 #include <windows.h>
 
+
 ApiCaller::ApiCaller(QObject *parent, QString inputapiKey) : QObject(parent)
+
 {
     apiKey = inputapiKey;
     connect(&manager, &QNetworkAccessManager::finished, this, &ApiCaller::onReplyReceived);
@@ -12,7 +13,6 @@ ApiCaller::ApiCaller(QObject *parent, QString inputapiKey) : QObject(parent)
 
 void ApiCaller::makeRequest(const QString &prompt)
 {
-
     // Define API URL
     QUrl url("https://openrouter.ai/api/v1/chat/completions");
     QNetworkRequest request(url);
@@ -27,18 +27,19 @@ void ApiCaller::makeRequest(const QString &prompt)
     // Create JSON payload
     QJsonObject json;
 
-
     QString formattedPrompt = " User: ";
     formattedPrompt.append(prompt);
     formattedPrompt.append(" ");
     context.append(formattedPrompt);
     json["model"] = "mistralai/mistral-7b-instruct:free";
+
     json["messages"] = QJsonArray{
     QJsonObject{{"role", "system"}, {"content",
     "Your goal is to tell a good story in 3800 characters "
     "long. If content is empty, make the stary about something random"}},
     QJsonObject{{"role", "user"}, {"content", context}}
     };
+
 
     //json["max_tokens"] = 4000;
 
@@ -53,14 +54,17 @@ void ApiCaller::makeRequest(const QString &prompt)
 
     // Send POST request
     QNetworkReply *reply = manager.post(request, jsonData);
-
 }
 
-void ApiCaller::onReplyReceived(QNetworkReply *reply) {
-    qDebug("---------------------------------Response receved------------------------------------------");
+void ApiCaller::onReplyReceived(QNetworkReply *reply)
+{
+    qDebug("---------------------------------Response "
+           "receved------------------------------------------");
     if (reply->error() == QNetworkReply::NoError) {
         QByteArray responseData = reply->readAll();
+
         //qDebug() << "Raw API Response:" << responseData;  // Log raw response
+
 
         QJsonDocument jsonDoc = QJsonDocument::fromJson(responseData);
         if (jsonDoc.isObject()) {
@@ -68,7 +72,8 @@ void ApiCaller::onReplyReceived(QNetworkReply *reply) {
             QJsonArray choices = jsonObj["choices"].toArray();
             if (!choices.isEmpty()) {
                 QString contextFormattedReply = "System: ";
-                contextFormattedReply.append(choices[0].toObject()["message"].toObject()["content"].toString());
+                contextFormattedReply.append(
+                    choices[0].toObject()["message"].toObject()["content"].toString());
                 context.append(contextFormattedReply);
                 qDebug() << contextFormattedReply;
                 qDebug("-------------------------ResponseRecevedEmitted----------------");
@@ -81,14 +86,17 @@ void ApiCaller::onReplyReceived(QNetworkReply *reply) {
         }
     } else {
         qDebug() << "API Error:" << reply->errorString();
-        qDebug() << "HTTP Response Code:" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        qDebug() << "HTTP Response Code:"
+                 << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         qDebug() << "Server Response:" << reply->readAll();
     }
 
     reply->deleteLater();
 }
 
+
 void ApiCaller::onApiKeyChanged(QString newApiKey)
 {
     this->apiKey = newApiKey;
 }
+

@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
         "   padding: 8px; "
         "   border: 2px solid gray; "
         "} "
+
         "QTextBrowser::selection { background-color: darkgray; color: black; }"
         );
 
@@ -84,17 +85,19 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     ApiCaller *caller = new ApiCaller(this, apiKey);
+
     apiCaller = caller;
     connect(apiKeyConfigWindow, &ApiKeyConfigWindow::apiKeySet, apiCaller, &ApiCaller::onApiKeyChanged);
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
 }
 
-MainWindow::~MainWindow() {
+MainWindow::~MainWindow()
+{
     delete ui;
 }
-
-void MainWindow::on_sendButton_clicked() {
-
+//comment for testing
+void MainWindow::on_sendButton_clicked()
+{
     QString prompt = ui->promptTextBox->toPlainText();
     QString userDialog = "\nYou: ";
     userDialog.append(prompt);
@@ -103,16 +106,18 @@ void MainWindow::on_sendButton_clicked() {
     ui->responseBox->append(userDialog);
     // Call OpenRouter API
     apiCaller->makeRequest(prompt);
-
 }
 
-void MainWindow::onApiResponseReceived(QString response) {//append response to dialog box
+void MainWindow::onApiResponseReceived(QString response)
+{ //append response to dialog box
     ui->responseBox->append(response);
     qDebug() << "-------------------------response printed----------------------------";
 }
+
 
 
 void MainWindow::on_actionFile_triggered()
 {
 
 }
+

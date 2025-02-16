@@ -2,16 +2,19 @@
 #ifndef APICALLER_H
 #define APICALLER_H
 
-#include <QObject>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include <QDebug>
 #include <QJsonArray>
+
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QObject>
+
 #include <cstdlib>
 #include <windows.h>
+
 
 class ApiCaller : public QObject
 {
@@ -36,4 +39,3 @@ private:
 };
 //new key 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
 #endif // APICALLER_H
-
