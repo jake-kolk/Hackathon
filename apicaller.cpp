@@ -1,9 +1,13 @@
 
 #include "apicaller.h"
+#include "apikeyconfigwindow.h"
+#include <windows.h>
 
-ApiCaller::ApiCaller(QObject *parent) : QObject(parent)
+ApiCaller::ApiCaller(QObject *parent, QString inputapiKey) : QObject(parent)
 {
+    apiKey = inputapiKey;
     connect(&manager, &QNetworkAccessManager::finished, this, &ApiCaller::onReplyReceived);
+
 }
 
 void ApiCaller::makeRequest(const QString &prompt)
@@ -84,3 +88,7 @@ void ApiCaller::onReplyReceived(QNetworkReply *reply) {
     reply->deleteLater();
 }
 
+void ApiCaller::onApiKeyChanged(QString newApiKey)
+{
+    this->apiKey = newApiKey;
+}
