@@ -13,6 +13,7 @@ public:
     // Add an image with an optional caption
     void addMedia(const QImage &image);
 
+
     // Get image by index
     QImage getImage(int index);
 

@@ -4,7 +4,8 @@
 #include <QMenu>
 #include <QLabel>
 #include <QFileDialog>
-//#include <Python.h>
+#include <QGraphicsPixmapItem>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,6 +22,10 @@ MainWindow::MainWindow(QWidget *parent)
     fileMenu->addAction(actionSave);
     // Connect actionSave to slot
     connect(actionSave, &QAction::triggered, this, &MainWindow::on_saveButton_clicked);
+
+    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::nextImage);
+
+    connect(ui->pushButton_2, &QPushButton::clicked, this, &MainWindow::prevImage);
 
     // Create actionSave
     QAction *actionClearApiKey = new QAction("Clear API Key", this);
@@ -116,9 +121,9 @@ void MainWindow::on_sendButton_clicked()
     QString prompt = ui->promptTextBox->toPlainText();
     //clear prompt box after pressing enter
     ui->promptTextBox->clear();
-    QString userDialog = "\nYou: ";
+    QString userDialog = "\nPrompt: ";
     userDialog.append(prompt);
-    userDialog.append("\n");
+    userDialog.append("\nNow Generating... \n");
     //Put entered text into the chat window
     ui->responseBox->append(userDialog);
     // Call OpenRouter API
@@ -198,24 +203,52 @@ void MainWindow::on_actionFile_triggered()
     qDebug() << "FILE HIT";
 }
 
-void MainWindow::clearResponseWindow(){
+void MainWindow::clearResponseWindow()
+{
     ui->responseBox->clear();
 }
 
-void MainWindow::imageHandler()
+void MainWindow::updateImage()
 {
-    //wont be file, will be feed of images generated
-    QString filename = "xxxxx";
-    QLabel* lbl = new QLabel(this);
-    //for showing in center
-    lbl->setAlignment(Qt::AlignCenter);
-    QPixmap pix;
+    scene->clear(); // Clear the previous image
 
-    //if loaded okay
-    if(pix.load(filename))
+    if (!images.isEmpty() && currentIndex < images.size())
     {
-        //scaling
-        pix = pix.scaled(lbl->size(),Qt::KeepAspectRatio);
-        lbl->setPixmap(pix);
+        QPixmap pixmap = QPixmap::fromImage(images[currentIndex]);
+        QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pixmap);
+        scene->addItem(item); // Add image to the scene
+    }
+
+    ui->graphicsView->setScene(scene);
+    ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+}
+
+//will be modificed do display image in ui
+void MainWindow::imageHandler(QVector<QImage> imgList)
+{
+    images = imgList; // Store images
+    currentIndex = 0; // Start from the first image
+
+    scene = new QGraphicsScene(this); // Create scene
+    updateImage(); // Display the first image
+}
+
+void MainWindow::nextImage()
+{
+    if (currentIndex < images.size() - 1)
+    {
+        currentIndex++; // Move to the next image
+        updateImage();  // Refresh display
     }
 }
+
+void MainWindow::prevImage()
+{
+    if (currentIndex > 0) // Ensure we don’t go below 0
+    {
+        currentIndex--; // Move to the previous image
+        updateImage();  // Refresh display
+    }
+}
+
+
