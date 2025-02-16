@@ -140,7 +140,7 @@ void MainWindow::on_saveButton_clicked()
         stream << saveStream;
         file.flush();  // Ensure data is written
         file.close();
-        qDebug() << "Successfully wrote to file";
+        qDebug() << "Successfully wrote to file(Origin: MainWindow::on_saveButtonClicked()";
     }
     else
     {
@@ -150,7 +150,7 @@ void MainWindow::on_saveButton_clicked()
 
 
 void MainWindow::onApiResponseReceived(QString response)
-{ //append response to dialog box
+{   //append response to dialog box
     ui->responseBox->append(response);
     qDebug() << "-------------------------response printed----------------------------scanning images";
     //QStringList pageText = response.split('*');
@@ -171,20 +171,20 @@ void MainWindow::onApiResponseReceived(QString response)
         command.append("\"");
         process->start(command);
         if (!process->waitForFinished()) {
-            qDebug() << "Error: Process failed to finish.";
+            qDebug() << "Error: Process failed to finish. (Origin MainWindow::onApiResonseReceved)";
         } else {
             int exitCode = process->exitCode();
             if (exitCode == 0) {
-                qDebug() << "Process executed successfully!";
+                qDebug() << "Process executed successfully!(Origin MainWindow::onApiResonseReceved)";
             } else {
-                qDebug() << "BROKE Process exited with code:" << exitCode;
+                qDebug() << "(Origin MainWindow::onApiResonseReceved) Process exited with code:" << exitCode;
             }
         }
         fileloc = QString("%1.jpg").arg(i);
         image = container->scanImage(fileloc);
         if(image->isNull())
         {
-            qDebug() << "SHITS BROKEN HOMIE";
+            qDebug() << "Error: (Origin MainWindow::onApiResonseReceved, if(image->isNull == true))";
         }
         container->addMedia(*image);
         container->addQString(pageText[i]);
@@ -195,7 +195,7 @@ void MainWindow::onApiResponseReceived(QString response)
 
 void MainWindow::on_actionFile_triggered()
 {
-    qDebug() << "FILE HIT";
+    qDebug() << "File button pressed";
 }
 
 void MainWindow::clearResponseWindow(){
