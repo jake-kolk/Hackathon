@@ -1,6 +1,5 @@
 #include "apicaller.h"
 #include "apikeyconfigwindow.h"
-#include <windows.h>
 
 
 ApiCaller::ApiCaller(QObject *parent, QString inputapiKey) : QObject(parent)
@@ -35,7 +34,7 @@ void ApiCaller::makeRequest(const QString &prompt)
 
     json["messages"] = QJsonArray{
     QJsonObject{{"role", "system"}, {"content",
-    "Your goal is to tell a good story in 3800 characters "
+    "Your goal is to tell a good story that is 750 words "
     "long. If content is empty, make the stary about something random"}},
     QJsonObject{{"role", "user"}, {"content", context}}
     };
@@ -94,9 +93,73 @@ void ApiCaller::onReplyReceived(QNetworkReply *reply)
     reply->deleteLater();
 }
 
+void ApiCaller::saveApiKey(QString apiKey) {
+    // Create a JSON object to hold the key-value pair
+    QJsonObject json;
+    json["api_key"] = apiKey;
+
+    // Create a JSON document from the JSON object
+    QJsonDocument doc(json);
+
+    // Open a file for writing
+    QFile file("config.json");
+    if (!file.open(QIODevice::WriteOnly)) {
+        qWarning() << "Could not open config.json for writing.";
+        return;
+    }
+
+    // Write the JSON document to the file
+    file.write(doc.toJson());
+    file.close();
+}
+void ApiCaller::clearApiKey() {
+    // Create a JSON object to hold the key-value pair
+    QJsonObject json;
+    json["api_key"] = "";
+
+    // Create a JSON document from the JSON object
+    QJsonDocument doc(json);
+
+    // Open a file for writing
+    QFile file("config.json");
+    if (!file.open(QIODevice::WriteOnly)) {
+        qWarning() << "Could not open config.json for writing.";
+        return;
+    }
+
+    // Write the JSON document to the file
+    file.write(doc.toJson());
+    file.close();
+}
+
+QString ApiCaller::loadApiKey() {
+    // Open the config file for reading
+    QFile file("config.json");
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Could not open config.json for reading.";
+        return "";
+    }
+    qDebug() << "Loaded config.json";
+    // Read the content of the file
+    QByteArray data = file.readAll();
+    file.close();
+
+    // Parse the JSON data
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    if (doc.isNull()) {
+        qWarning() << "Failed to parse config.json.";
+        return "";
+    }
+
+    // Get the JSON object and extract the API key
+    QJsonObject json = doc.object();
+    this->apiKey = json["api_key"].toString();
+    return json["api_key"].toString();
+}
 
 void ApiCaller::onApiKeyChanged(QString newApiKey)
 {
     this->apiKey = newApiKey;
+    saveApiKey(newApiKey);
 }
 

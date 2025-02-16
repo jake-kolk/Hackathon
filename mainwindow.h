@@ -27,12 +27,14 @@ private slots:
     void on_actionFile_triggered();
     void on_saveButton_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     ApiCaller *apiCaller; // Make ApiCaller persistent
     std::vector<QString> responses;
     std::vector<QString> prompts;
     ApiKeyConfigWindow *apiKeyConfigWindow;
+    void clearResponseWindow();
 };
 
 #endif // MAINWINDOW_H
