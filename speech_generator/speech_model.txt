@@ -1,0 +1,2 @@
+tts_models--en--ljspeech--fast_pitch
+tts_models--en--ljspeech--glow-tts(no)
