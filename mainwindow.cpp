@@ -22,6 +22,20 @@ MainWindow::MainWindow(QWidget *parent)
         "QTextBrowser::selection { background-color: darkgray; color: black; }"
         );
 
+  
+
+    //set prompt text box style
+    ui->promptTextBox->setStyleSheet(
+        "QTextEdit { "
+        "   background-color: #B0B0B0; "
+        "   color: black; "
+        "   border-radius: 10px; "
+        "   padding: 8px; "
+        "   border: 2px solid #707070; " // Darker border
+        "   selection-background-color: #909090; " // Highlight color for selected text
+        "} "
+        );
+    //set style sheet for send button
     ui->sendButton->setStyleSheet(
         "QPushButton {"
         "   border-radius: 35px; "  // Half of the width/height
@@ -33,32 +47,26 @@ MainWindow::MainWindow(QWidget *parent)
         "   background-color: #2980b9;"
         "}"
         );
-    //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
-    /*
-    if (_putenv("API_KEY=") == 0) {
-        qDebug() << "Environment variable set successfully.\n";
-    } else {
-        qDebug() << "Failed to set environment variable.\n";
-    }
-*/
-    QString apiKey = std::getenv("API_KEY") ? QString::fromUtf8(std::getenv("API_KEY")) : QString();
-    if (apiKey.isEmpty() != true) {
-        qDebug() << "API Key:" << apiKey;
-    } else {
-        qDebug() << "No API key";
-        apiKeyConfigWindow = new ApiKeyConfigWindow(this);
-
-        // Connect the signal from ApiKeyConfigWindow to the slot in MainWindow
-
-
-        apiKeyConfigWindow->show();
-    }
-
-    ApiCaller *caller = new ApiCaller(this, apiKey);
-
-    apiCaller = caller;
-    connect(apiKeyConfigWindow, &ApiKeyConfigWindow::apiKeySet, apiCaller, &ApiCaller::onApiKeyChanged);
+    //init ApiCaller
+    ApiCaller *caller = new ApiCaller(this, "");
+    this->apiCaller = caller;
+    //Connect ApiCaller response receved signal to MainWindow so MainWindow can display results
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
+    //This loads the Api key and send it to caller
+    caller->clearApiKey();
+    QString apiKey = caller->loadApiKey();
+    if(apiKey == "")//if no key is loaded, open key config window
+    {
+        qDebug() << "No API key loaded....";
+        //init ApiKeyConfigWindow
+        apiKeyConfigWindow = new ApiKeyConfigWindow(this);
+        //connect ApiKeyConfig key changes signal to ApiCaller so it can update json and update ApiCaller attribute
+        connect(apiKeyConfigWindow, &ApiKeyConfigWindow::apiKeySet, apiCaller, &ApiCaller::onApiKeyChanged);
+        apiKeyConfigWindow->show();
+
+    }else{
+        qDebug() << "Key loaded: " << apiKey;
+    }
 }
 
 MainWindow::~MainWindow()
@@ -88,6 +96,6 @@ void MainWindow::onApiResponseReceived(QString response)
 
 void MainWindow::on_actionFile_triggered()
 {
-
+    qDebug() << "FILE HIT";
 }
 

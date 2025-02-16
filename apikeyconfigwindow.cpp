@@ -12,28 +12,19 @@ ApiKeyConfigWindow::~ApiKeyConfigWindow()
 {
     delete ui;
 }
+void ApiKeyConfigWindow::on_buttonBox_clicked(QAbstractButton* n){
 
-void ApiKeyConfigWindow::on_buttonBox_clicked(QAbstractButton *button)//shits not working idk why program uses one below
-{
-    QString newKey = ui->ApiKeyTextEdit->toPlainText();
-    if(newKey == "")
-    {
-        return;
-    }
-    else{
-        emit apiKeySet(newKey);
-    }
 }
-
-
 void ApiKeyConfigWindow::on_OkButton_accepted()
 {
     QString newKey = ui->ApiKeyTextEdit->toPlainText();
     if(newKey == "")
     {
+        qDebug() << "Empty API key laoded;(";
         return;
     }
     else{
+        qDebug() << "apiKeySet emitted";
         emit apiKeySet(newKey);
     }
 }

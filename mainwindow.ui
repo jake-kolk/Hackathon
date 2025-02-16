@@ -76,6 +76,7 @@
      </widget>
     </item>
    </layout>
+
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -87,6 +88,7 @@
      <height>25</height>
     </rect>
    </property>
+
   </widget>
   <action name="actionFile">
    <property name="text">
