@@ -131,10 +131,10 @@ void MainWindow::updateImage()
     scene->clear(); // Clear previous image
 
     // Ensure the index is valid before accessing images
-    const QImage* image = mediaContainer.getImage(currentIndex);
-    if (image)
+    QImage image = mediaContainer.getImage(currentIndex);
+    if (image.isNull() == false)
     {
-        QPixmap pixmap = QPixmap::fromImage(*image);
+        QPixmap pixmap = QPixmap::fromImage(image);
         QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pixmap);
         scene->addItem(item); // Add image to the scene
     }
