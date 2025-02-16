@@ -2,5 +2,6 @@
     <qresource prefix="/new/images">
         <file>books.jpg</file>
         <file>whitebackground.jpg</file>
+        <file>../../../../../Downloads/image.ico</file>
     </qresource>
 </RCC>
