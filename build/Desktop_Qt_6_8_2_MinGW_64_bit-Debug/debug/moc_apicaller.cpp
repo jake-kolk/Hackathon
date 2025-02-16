@@ -42,6 +42,8 @@ static constexpr auto qt_meta_stringdata_ZN9ApiCallerE = QtMocHelpers::stringDat
     "responseReceived",
     "",
     "response",
+    "onApiKeyChanged",
+    "newApiKey",
     "onReplyReceived",
     "QNetworkReply*",
     "reply"
@@ -56,7 +58,7 @@ Q_CONSTINIT static const uint qt_meta_data_ZN9ApiCallerE[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -64,16 +66,18 @@ Q_CONSTINIT static const uint qt_meta_data_ZN9ApiCallerE[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   26,    2, 0x06,    1 /* Public */,
+       1,    1,   32,    2, 0x06,    1 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       4,    1,   29,    2, 0x08,    3 /* Private */,
+       4,    1,   35,    2, 0x0a,    3 /* Public */,
+       6,    1,   38,    2, 0x08,    5 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 5,    6,
+    QMetaType::Void, QMetaType::QString,    5,
+    QMetaType::Void, 0x80000000 | 7,    8,
 
        0        // eod
 };
@@ -90,6 +94,9 @@ Q_CONSTINIT const QMetaObject ApiCaller::staticMetaObject = { {
         // method 'responseReceived'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QString, std::false_type>,
+        // method 'onApiKeyChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>,
         // method 'onReplyReceived'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QNetworkReply *, std::false_type>
@@ -103,14 +110,15 @@ void ApiCaller::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->responseReceived((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 1: _t->onReplyReceived((*reinterpret_cast< std::add_pointer_t<QNetworkReply*>>(_a[1]))); break;
+        case 1: _t->onApiKeyChanged((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 2: _t->onReplyReceived((*reinterpret_cast< std::add_pointer_t<QNetworkReply*>>(_a[1]))); break;
         default: ;
         }
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-        case 1:
+        case 2:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
@@ -150,14 +158,14 @@ int ApiCaller::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }

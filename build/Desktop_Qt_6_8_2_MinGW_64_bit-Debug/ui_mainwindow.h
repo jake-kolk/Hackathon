@@ -12,11 +12,13 @@
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QLabel>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -26,45 +28,81 @@ class Ui_MainWindow
 public:
     QAction *actionFile;
     QWidget *centralwidget;
+    QGridLayout *gridLayout;
+    QVBoxLayout *verticalLayout;
+    QTextBrowser *responseBox;
+    QWidget *gridWidget;
+    QGridLayout *gridLayout_2;
     QTextBrowser *promptTextBox;
     QPushButton *sendButton;
-    QTextBrowser *responseBox;
-    QLabel *label;
+    QTextBrowser *textBrowser;
     QStatusBar *statusbar;
+    QMenuBar *menuBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1318, 660);
+        MainWindow->resize(1178, 605);
+        MainWindow->setAutoFillBackground(false);
         actionFile = new QAction(MainWindow);
         actionFile->setObjectName("actionFile");
         actionFile->setMenuRole(QAction::MenuRole::ApplicationSpecificRole);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        promptTextBox = new QTextBrowser(centralwidget);
-        promptTextBox->setObjectName("promptTextBox");
-        promptTextBox->setGeometry(QRect(20, 540, 901, 71));
-        promptTextBox->setReadOnly(false);
-        sendButton = new QPushButton(centralwidget);
-        sendButton->setObjectName("sendButton");
-        sendButton->setGeometry(QRect(1160, 540, 131, 71));
+        QSizePolicy sizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(centralwidget->sizePolicy().hasHeightForWidth());
+        centralwidget->setSizePolicy(sizePolicy);
+        centralwidget->setMaximumSize(QSize(16777215, 16777215));
+        centralwidget->setStyleSheet(QString::fromUtf8("background-image: url(:/new/images/books.jpg);"));
+        gridLayout = new QGridLayout(centralwidget);
+        gridLayout->setObjectName("gridLayout");
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName("verticalLayout");
+
+        gridLayout->addLayout(verticalLayout, 0, 1, 1, 1);
+
         responseBox = new QTextBrowser(centralwidget);
         responseBox->setObjectName("responseBox");
-        responseBox->setGeometry(QRect(15, 11, 1281, 511));
-        label = new QLabel(centralwidget);
-        label->setObjectName("label");
-        label->setGeometry(QRect(-8, -1, 1331, 661));
-        label->setStyleSheet(QString::fromUtf8("\n"
-"background-image: url(:/new/images/books.jpg);"));
+
+        gridLayout->addWidget(responseBox, 0, 3, 1, 1);
+
+        gridWidget = new QWidget(centralwidget);
+        gridWidget->setObjectName("gridWidget");
+        gridWidget->setMaximumSize(QSize(10000, 10000));
+        gridLayout_2 = new QGridLayout(gridWidget);
+        gridLayout_2->setObjectName("gridLayout_2");
+        promptTextBox = new QTextBrowser(gridWidget);
+        promptTextBox->setObjectName("promptTextBox");
+        promptTextBox->setReadOnly(false);
+
+        gridLayout_2->addWidget(promptTextBox, 2, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignBottom);
+
+        sendButton = new QPushButton(gridWidget);
+        sendButton->setObjectName("sendButton");
+
+        gridLayout_2->addWidget(sendButton, 4, 0, 1, 1);
+
+        textBrowser = new QTextBrowser(gridWidget);
+        textBrowser->setObjectName("textBrowser");
+        textBrowser->setMinimumSize(QSize(0, 192));
+        textBrowser->setAutoFillBackground(true);
+
+        gridLayout_2->addWidget(textBrowser, 1, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter);
+
+
+        gridLayout->addWidget(gridWidget, 0, 2, 1, 1);
+
         MainWindow->setCentralWidget(centralwidget);
-        label->raise();
-        promptTextBox->raise();
-        sendButton->raise();
-        responseBox->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
         MainWindow->setStatusBar(statusbar);
+        menuBar = new QMenuBar(MainWindow);
+        menuBar->setObjectName("menuBar");
+        menuBar->setGeometry(QRect(0, 0, 1178, 25));
+        MainWindow->setMenuBar(menuBar);
 
         retranslateUi(MainWindow);
 
@@ -79,7 +117,6 @@ public:
         actionFile->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+F", nullptr));
 #endif // QT_CONFIG(shortcut)
         sendButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
-        label->setText(QString());
     } // retranslateUi
 
 };

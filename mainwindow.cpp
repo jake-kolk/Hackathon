@@ -22,36 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
         "QTextBrowser::selection { background-color: darkgray; color: black; }"
         );
 
-    //set tab container color
-    ui->tabContainer->setStyleSheet(
-        "QTabBar::tab { "
-        "   height: 10px; "
-        "   padding: 8px; "
-        "   background: #1E2E2E; "
-        "   color: white; "
-        "   border-top-left-radius: 10px; "
-       // "   border-bottom-right-radius: 10px; "
-        "   border-top-right-radius: 10px; "
-       // "   border: 2px solid #3B4B4B; "
-        "} "
-        "QTabBar::tab:selected { background: #3B4B4B; } "
-        "QTabBar::tab:hover { background: #465656; } "
-        );
-    ui->tabContainer->setTabText(0, "\"ChatGPT\"");  // Changes the first tab's title
-    ui->tabContainer->setTabText(1, "\"DeepSeek\"");
-    //set prompt text box style
-    ui->promptTextBox->setStyleSheet(
-        "QTextEdit { "
-        "   background-color: #B0B0B0; "
-        "   color: black; "
-        "   border-radius: 10px; "
-        "   padding: 8px; "
-        "   border: 2px solid #707070; " // Darker border
-        "   selection-background-color: #909090; " // Highlight color for selected text
-        "} "
-        );
-    //set style sheet for send button
-
     ui->sendButton->setStyleSheet(
         "QPushButton {"
         "   border-radius: 35px; "  // Half of the width/height
