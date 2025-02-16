@@ -3,4 +3,7 @@
         <file>books.jpg</file>
         <file>whitebackground.jpg</file>
     </qresource>
+    <qresource prefix="/">
+        <file>image_gen.exe</file>
+    </qresource>
 </RCC>
