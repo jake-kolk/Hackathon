@@ -11,12 +11,11 @@
 + Challenges & Learning
 
 ## Overview
-PictoTales is an story-teller app powered by AI. It provides the option to generate stories, background images that goes along with the story, and text-to-speech to read the story outloud. Build during CrimsonCode Hackathon 2025 in 24 hours!
+PictoTales is an story-teller app powered by AI. It provides the option to generate stories, background images that goes along with the story. Build during CrimsonCode Hackathon 2025 in 24 hours!
 
 ## Features
 + AI-generated story with custom prompt and genre
 + Background image generation based on the story
-+ Text-to-speech vits model to read story outloud
 + Interactive pages for story
 
 ## Tech Stack
@@ -29,8 +28,13 @@ APIs & tools: openrouter API, Cloudflare's flux-1-schnell API, coqui-tts vits mo
 
 ## Team
 |Name|Contribution|Github|
+|----|----|----|
 |Khoa|implement API calls|@KhoaTa06|
-|
+|----|----|----|
+|Gavin|
+|----|----|----|
+|Jake|
+
 
 
 ## Challenges & Learning
