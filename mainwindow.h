@@ -25,6 +25,8 @@ private slots:
     void on_sendButton_clicked();
     void onApiResponseReceived(QString response); // Slot to update UI
     void on_actionFile_triggered();
+    void on_saveButton_clicked();
+
 
 private:
     Ui::MainWindow *ui;

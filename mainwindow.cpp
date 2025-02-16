@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     //let the main window know when apicaller gets response
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
+
     //set response box color
     ui->responseBox->setStyleSheet(
         "QTextBrowser { "
@@ -86,6 +88,25 @@ void MainWindow::on_sendButton_clicked()
     // Call OpenRouter API
     apiCaller->makeRequest(prompt);
 }
+
+//save function
+void MainWindow::on_saveButton_clicked()
+{
+    QString saveStream = ui->responseBox->toPlainText();
+    //QString filepath = "newStory.txt";
+    QFile file("newStory.txt");
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream stream(&file);
+        stream << saveStream;
+        file.close();
+    } else
+    {
+        // Handling an error
+        qDebug() << "Failed to open file for writing:" << file.errorString();
+    }
+}
+
 
 void MainWindow::onApiResponseReceived(QString response)
 { //append response to dialog box
