@@ -106,6 +106,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </widget>
     </item>
    </layout>
+
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -129,6 +130,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    </widget>
    <addaction name="menuSave"/>
    <addaction name="menuClear"/>
+
   </widget>
   <action name="actionFile">
    <property name="text">

@@ -32,6 +32,7 @@ private:
     std::vector<QString> responses;
     std::vector<QString> prompts;
     ApiKeyConfigWindow *apiKeyConfigWindow;
+    void clearResponseWindow();
 };
 
 #endif // MAINWINDOW_H
