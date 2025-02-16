@@ -46,7 +46,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1178, 605);
+        MainWindow->resize(1178, 668);
         MainWindow->setAutoFillBackground(false);
         actionFile = new QAction(MainWindow);
         actionFile->setObjectName("actionFile");
