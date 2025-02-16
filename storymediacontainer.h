@@ -6,7 +6,8 @@
 #include <QUrl>
 #include <QFileInfo>
 
-class StoryMediaContainer : public QObject {
+class StoryMediaContainer : public QObject
+{
     Q_OBJECT
 
 public:
