@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -30,13 +31,15 @@ public:
     QAction *actionFile;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QVBoxLayout *verticalLayout;
-    QTextBrowser *responseBox;
     QWidget *gridWidget;
     QGridLayout *gridLayout_2;
-    QTextBrowser *promptTextBox;
-    QPushButton *sendButton;
     QTextBrowser *textBrowser;
+    QTextBrowser *promptTextBox;
+    QVBoxLayout *verticalLayout;
+    QTextBrowser *responseBox;
+    QPushButton *pushButton;
+    QPushButton *sendButton;
+    QGraphicsView *graphicsView;
     QStatusBar *statusbar;
     QMenuBar *menuBar;
     QMenu *menuSave;
@@ -61,32 +64,11 @@ public:
         centralwidget->setMaximumSize(QSize(16777215, 16777215));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName("gridLayout");
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName("verticalLayout");
-
-        gridLayout->addLayout(verticalLayout, 0, 1, 1, 1);
-
-        responseBox = new QTextBrowser(centralwidget);
-        responseBox->setObjectName("responseBox");
-
-        gridLayout->addWidget(responseBox, 0, 3, 1, 1);
-
         gridWidget = new QWidget(centralwidget);
         gridWidget->setObjectName("gridWidget");
         gridWidget->setMaximumSize(QSize(10000, 10000));
         gridLayout_2 = new QGridLayout(gridWidget);
         gridLayout_2->setObjectName("gridLayout_2");
-        promptTextBox = new QTextBrowser(gridWidget);
-        promptTextBox->setObjectName("promptTextBox");
-        promptTextBox->setReadOnly(false);
-
-        gridLayout_2->addWidget(promptTextBox, 2, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignBottom);
-
-        sendButton = new QPushButton(gridWidget);
-        sendButton->setObjectName("sendButton");
-
-        gridLayout_2->addWidget(sendButton, 4, 0, 1, 1);
-
         textBrowser = new QTextBrowser(gridWidget);
         textBrowser->setObjectName("textBrowser");
         textBrowser->setMinimumSize(QSize(0, 192));
@@ -94,8 +76,39 @@ public:
 
         gridLayout_2->addWidget(textBrowser, 1, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter);
 
+        promptTextBox = new QTextBrowser(gridWidget);
+        promptTextBox->setObjectName("promptTextBox");
+        promptTextBox->setReadOnly(false);
 
-        gridLayout->addWidget(gridWidget, 0, 2, 1, 1);
+        gridLayout_2->addWidget(promptTextBox, 3, 0, 2, 1, Qt::AlignmentFlag::AlignHCenter);
+
+
+        gridLayout->addWidget(gridWidget, 2, 2, 1, 1);
+
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName("verticalLayout");
+
+        gridLayout->addLayout(verticalLayout, 2, 1, 1, 1);
+
+        responseBox = new QTextBrowser(centralwidget);
+        responseBox->setObjectName("responseBox");
+
+        gridLayout->addWidget(responseBox, 2, 3, 1, 1);
+
+        pushButton = new QPushButton(centralwidget);
+        pushButton->setObjectName("pushButton");
+
+        gridLayout->addWidget(pushButton, 3, 4, 1, 1);
+
+        sendButton = new QPushButton(centralwidget);
+        sendButton->setObjectName("sendButton");
+
+        gridLayout->addWidget(sendButton, 3, 2, 1, 1);
+
+        graphicsView = new QGraphicsView(centralwidget);
+        graphicsView->setObjectName("graphicsView");
+
+        gridLayout->addWidget(graphicsView, 2, 4, 1, 1);
 
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
@@ -125,15 +138,6 @@ public:
 #if QT_CONFIG(shortcut)
         actionFile->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+F", nullptr));
 #endif // QT_CONFIG(shortcut)
-        promptTextBox->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
-        sendButton->setText(QCoreApplication::translate("MainWindow", "Make your story!", nullptr));
         textBrowser->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -154,6 +158,16 @@ public:
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">If you would like to clear the story hit &quot;Clear&quot;</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt;\"><br /></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p></body></html>", nullptr));
+        promptTextBox->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "Next...", nullptr));
+        sendButton->setText(QCoreApplication::translate("MainWindow", "Make your story!", nullptr));
         menuSave->setTitle(QCoreApplication::translate("MainWindow", "Save", nullptr));
         menuClear->setTitle(QCoreApplication::translate("MainWindow", "Clear", nullptr));
     } // retranslateUi
