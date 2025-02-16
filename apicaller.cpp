@@ -35,7 +35,7 @@ void ApiCaller::makeRequest(const QString &prompt)
     json["messages"] = QJsonArray{
     QJsonObject{{"role", "system"}, {"content",
     "Your goal is to tell a good story that is 750 words "
-    "long. If content is empty, make the stary about something random"}},
+    "long and divide it into 5 pages. Before each page put a * character. If content is empty, make the story about something random"}},
     QJsonObject{{"role", "user"}, {"content", context}}
     };
 
