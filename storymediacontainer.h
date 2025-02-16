@@ -5,11 +5,17 @@
 #include <QString>
 #include <QImage>
 #include <QDebug>
+#include <QApplication>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QPixmap>
 class StoryMediaContainer {
 public:
     // Constructor
     StoryMediaContainer() = default;
-
+    std::vector<QGraphicsScene*> pixmaps;
+    std::vector<QString*> pageTexts;
     // Add an image with an optional caption
     void addMedia(const QImage &image);
 
@@ -22,12 +28,13 @@ public:
     int getSize();
 
     QImage* scanImage(QString filepath);
-
+    std::vector<QImage> images;
+    std::vector<QString> pageText;
     void addQString(QString string);
 
 private:
-    std::vector<QImage> images;
-    std::vector<QString> pageText;
+
+
 };
 
 #endif  STORYMEDIACONTAINER

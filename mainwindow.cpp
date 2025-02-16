@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     //set style sheet for send button
     ui->sendButton->setStyleSheet(
         "QPushButton {"
-        "   border-radius: 35px; "  // Half of the width/height
+      //  "   border-radius: 35px; "  // Half of the width/height
         "   background-color: #3498db;"
         "   color: white;"
         "   font-size: 18px;"
@@ -138,18 +138,20 @@ void MainWindow::on_saveButton_clicked()
 
 void MainWindow::onApiResponseReceived(QString response)
 {   //append response to dialog box
-    ui->responseBox->append(response);
+   // ui->responseBox->append(response);
     qDebug() << "-------------------------response printed----------------------------scanning images";
     //QStringList pageText = response.split('*');
     QStringList pageText = response.split('*');
     QString command;
     int pageCount = pageText.count();
 
+    ui->responseBox->setText(pageText[0]);
+
     QProcess *process = new QProcess(this);
     StoryMediaContainer* container = new StoryMediaContainer;
     QImage* image;
     QString fileloc = "";
-
+    QString* newString;
     for(int i = 0;  i < pageCount; i++)
     {
 
@@ -175,9 +177,29 @@ void MainWindow::onApiResponseReceived(QString response)
         }
         container->addMedia(*image);
         container->addQString(pageText[i]);
+       QPixmap pixmap = QPixmap::fromImage(*image);
+        // Create a QGraphicsScene to hold the item
+        QGraphicsScene *scene = new QGraphicsScene();
+
+        // Create a QGraphicsPixmapItem with the QPixmap
+        QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pixmap);
+
+        // Add the item to the scene
+        scene->addItem(item);
+
+        // Optionally, adjust the view to fit the item
+        container->pixmaps.push_back(scene);
+        newString = new QString(pageText[i]);
+        container->pageTexts.push_back(newString);
+        if(i == 0){
+            ui->graphicsView->setScene(container->pixmaps[0]);
+            ui->graphicsView->fitInView(item, Qt::KeepAspectRatio);
+        }
+        this->vectorLen++;
     }
-
-
+    ui->graphicsView->setScene(container->pixmaps[0]);
+    this->mediaContainer = *container;
+  //  ui->graphicsView->show();
 }
 
 
@@ -220,19 +242,52 @@ void MainWindow::imageHandler(StoryMediaContainer &container)
 
 void MainWindow::nextImage()
 {
-    if (currentIndex < mediaContainer.getSize() - 1)
-    {
-        currentIndex++; // Move to the next image
-        updateImage();  // Refresh display
-    }
+
 }
 
 void MainWindow::prevImage()
 {
-    if (currentIndex > 0) // Ensure we don’t go below 0
+
+}
+
+void MainWindow::nextText()
+{
+
+
+}
+
+void MainWindow::prevText()
+{
+
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    //int vectorSize = this->mediaContainer.pageText.size();
+    int vectorSize = (int)this->mediaContainer.pageText.size();
+    if( this->vectorPos < vectorSize - 1)
     {
-        currentIndex--; // Move to the previous image
-        updateImage();  // Refresh display
+        int newIndex = this->vectorPos + 1;
+        QString newString = this->mediaContainer.pageText[vectorPos + 1];
+        ui->responseBox->setText(newString);
+
+        ui->graphicsView->setScene(this->mediaContainer.pixmaps[this->vectorPos + 1]);
+        this->vectorPos++;
+    }
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    //int vectorSize = this->mediaContainer.pageText.size();
+    int vectorSize = (int)this->mediaContainer.pageText.size();
+    if( this->vectorPos > 0)
+    {
+        int newIndex = this->vectorPos - 1;
+        QString newString = this->mediaContainer.pageText[vectorPos - 1];
+        ui->responseBox->setText(newString);
+
+        ui->graphicsView->setScene(this->mediaContainer.pixmaps[this->vectorPos - 1]);
+        this->vectorPos--;
     }
 }
 
