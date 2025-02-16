@@ -24,13 +24,16 @@ public:
     QString getResponse() const;
     QString loadApiKey();
     void clearApiKey();
+    bool isApiKeyEmpty();
 public slots:
      void onApiKeyChanged(QString newApiKey);
+     void onClearApiKeyButtonCLicked();
 signals:
     void responseReceived(QString response);
 
 private slots:
     void onReplyReceived(QNetworkReply *reply);
+
 
 
 private:

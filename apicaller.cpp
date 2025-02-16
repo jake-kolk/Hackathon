@@ -26,7 +26,7 @@ void ApiCaller::makeRequest(const QString &prompt)
     // Create JSON payload
     QJsonObject json;
 
-    QString formattedPrompt = " User: ";
+    QString formattedPrompt = " Prompt: ";
     formattedPrompt.append(prompt);
     formattedPrompt.append(" ");
     context.append(formattedPrompt);
@@ -35,7 +35,7 @@ void ApiCaller::makeRequest(const QString &prompt)
     json["messages"] = QJsonArray{
     QJsonObject{{"role", "system"}, {"content",
     "Your goal is to tell a good story that is 750 words "
-    "long. If content is empty, make the stary about something random"}},
+    "long. divide the story into 5 pages. at the end of each page put a * character. If content is empty, make the story about something random"}},
     QJsonObject{{"role", "user"}, {"content", context}}
     };
 
@@ -130,6 +130,7 @@ void ApiCaller::clearApiKey() {
     // Write the JSON document to the file
     file.write(doc.toJson());
     file.close();
+    this->apiKey = "";
 }
 
 QString ApiCaller::loadApiKey() {
@@ -163,3 +164,13 @@ void ApiCaller::onApiKeyChanged(QString newApiKey)
     saveApiKey(newApiKey);
 }
 
+void ApiCaller::onClearApiKeyButtonCLicked()
+{
+    this->clearApiKey();
+}
+
+bool ApiCaller::isApiKeyEmpty()
+{
+    if(this->apiKey == "") return true;
+    else return false;
+}

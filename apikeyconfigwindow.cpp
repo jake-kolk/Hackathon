@@ -6,6 +6,11 @@ ApiKeyConfigWindow::ApiKeyConfigWindow(QWidget *parent)
     , ui(new Ui::ApiKeyConfigWindow)
 {
     ui->setupUi(this);
+
+    ui->ApiKeyTextEdit->setStyleSheet(
+        "QLineEdit { border: 1px solid gray; outline: none; border-radius: 12px; padding: 5px; } "
+        "QLineEdit:focus { border: 1px solid gray; outline: none; border-radius: 20px; }");
+
 }
 
 ApiKeyConfigWindow::~ApiKeyConfigWindow()

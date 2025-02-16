@@ -2,5 +2,9 @@
     <qresource prefix="/new/images">
         <file>books.jpg</file>
         <file>whitebackground.jpg</file>
+        <file>image.ico</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>image_gen.exe</file>
     </qresource>
 </RCC>

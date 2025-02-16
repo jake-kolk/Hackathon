@@ -1,6 +1,10 @@
 QT       += core gui
 QT += network widgets
 QT += core network
+QT += multimedia
+
+
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -9,16 +13,21 @@ CONFIG += c++17
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+RC_FILE = otherResources.rc
+
+
 SOURCES += \
     apicaller.cpp \
     apikeyconfigwindow.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    storymediacontainer.cpp
 
 HEADERS += \
     apicaller.h \
     apikeyconfigwindow.h \
-    mainwindow.h
+    mainwindow.h \
+    storymediacontainer.h
 
 FORMS += \
     apikeyconfigwindow.ui \
@@ -31,3 +40,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     resources.qrc
+
+DISTFILES += \
+    otherResources.rc
