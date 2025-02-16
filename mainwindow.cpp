@@ -121,9 +121,9 @@ void MainWindow::on_sendButton_clicked()
     QString prompt = ui->promptTextBox->toPlainText();
     //clear prompt box after pressing enter
     ui->promptTextBox->clear();
-    QString userDialog = "\nYou: ";
+    QString userDialog = "\nPrompt: ";
     userDialog.append(prompt);
-    userDialog.append("\n");
+    userDialog.append("\nNow Generating... \n");
     //Put entered text into the chat window
     ui->responseBox->append(userDialog);
     // Call OpenRouter API
