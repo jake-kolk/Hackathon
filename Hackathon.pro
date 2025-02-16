@@ -1,7 +1,8 @@
-QT       += core gui
+QT += core gui
 QT += network widgets
 QT += core network
 QT += multimedia
+QT += widgets
 
 
 

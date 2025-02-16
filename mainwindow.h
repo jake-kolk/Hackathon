@@ -7,6 +7,7 @@
 #include <QGraphicsScene>
 #include <iostream>
 #include <QGraphicsPixmapItem>
+#include <QProcess>
 #include "storymediacontainer.h"
 #include "apicaller.h"
 #include "apikeyconfigwindow.h"

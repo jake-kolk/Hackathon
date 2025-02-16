@@ -9,6 +9,22 @@ MainWindow::MainWindow(QWidget *parent)
     , apiCaller(new ApiCaller(this)) // Persistent instance
 {
     ui->setupUi(this);
+    QMenu *fileMenu = ui->menuBar->addMenu("File");
+   // QMenu *fileMenu = menuBar->addMenu("File");
+    // Create actionSave
+    QAction *actionSave = new QAction("Save", this);
+    fileMenu->addAction(actionSave);
+    // Connect actionSave to slot
+    connect(actionSave, &QAction::triggered, this, &MainWindow::on_saveButton_clicked);
+
+    // Create clear api key
+    QAction *actionClearApiKey = new QAction("Clear API Key", this);
+    fileMenu->addAction(actionClearApiKey);
+    //connect action save is done lower so its linked to Apicaller (named caller) object
+
+    //let the main window know when apicaller gets response
+    connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
+
     //let the main window know when apicaller gets response
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
 
@@ -53,8 +69,9 @@ MainWindow::MainWindow(QWidget *parent)
     this->apiCaller = caller;
     //Connect ApiCaller response receved signal to MainWindow so MainWindow can display results
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
+    //connect clear api bey button to function:
+    connect(actionClearApiKey, &QAction::triggered, caller, &ApiCaller::onClearApiKeyButtonCLicked);
     //This loads the Api key and send it to caller
-    caller->clearApiKey();
     QString apiKey = caller->loadApiKey();
     if(apiKey == "")//if no key is loaded, open key config window
     {
@@ -78,6 +95,14 @@ MainWindow::~MainWindow()
 void MainWindow::on_sendButton_clicked()
 {
 
+    if(this->apiCaller->isApiKeyEmpty() == true){
+        qDebug() << "No API key loaded....";
+        //init ApiKeyConfigWindow
+        apiKeyConfigWindow = new ApiKeyConfigWindow(this);
+        //connect ApiKeyConfig key changes signal to ApiCaller so it can update json and update ApiCaller attribute
+        connect(apiKeyConfigWindow, &ApiKeyConfigWindow::apiKeySet, apiCaller, &ApiCaller::onApiKeyChanged);
+        apiKeyConfigWindow->show();
+    }
     QString prompt = ui->promptTextBox->toPlainText();
     //clear prompt box after pressing enter
     ui->promptTextBox->clear();
