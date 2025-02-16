@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
         apiKeyConfigWindow = new ApiKeyConfigWindow(this);
         //connect ApiKeyConfig key changes signal to ApiCaller so it can update json and update ApiCaller attribute
         connect(apiKeyConfigWindow, &ApiKeyConfigWindow::apiKeySet, apiCaller, &ApiCaller::onApiKeyChanged);
+        apiKeyConfigWindow->setWindowTitle(QString("API key configuration"));
         apiKeyConfigWindow->show();
 
     }else{
