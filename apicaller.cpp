@@ -26,7 +26,7 @@ void ApiCaller::makeRequest(const QString &prompt)
     // Create JSON payload
     QJsonObject json;
 
-    QString formattedPrompt = " User: ";
+    QString formattedPrompt = " Prompt: ";
     formattedPrompt.append(prompt);
     formattedPrompt.append(" ");
     context.append(formattedPrompt);

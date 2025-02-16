@@ -1,10 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFile>
-#include <QMenu>
 #include <QLabel>
-#include <QFileDialog>
-//#include <Python.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,24 +9,9 @@ MainWindow::MainWindow(QWidget *parent)
     , apiCaller(new ApiCaller(this)) // Persistent instance
 {
     ui->setupUi(this);
-
-    // Create Menu
-    QMenu *fileMenu = menuBar()->addMenu("File");
-
-    // Create actionSave
-    QAction *actionSave = new QAction("Save", this);
-    fileMenu->addAction(actionSave);
-    // Connect actionSave to slot
-    connect(actionSave, &QAction::triggered, this, &MainWindow::on_saveButton_clicked);
-
-    // Create actionSave
-    QAction *actionClearApiKey = new QAction("Clear API Key", this);
-    fileMenu->addAction(actionClearApiKey);
-    //connect action save is done lower so its linked to Apicaller (named caller) object
-
-
     //let the main window know when apicaller gets response
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
+
     //set response box color
     ui->responseBox->setStyleSheet(
         "QTextBrowser { "
@@ -72,11 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
     //Connect ApiCaller response receved signal to MainWindow so MainWindow can display results
     connect(apiCaller, &ApiCaller::responseReceived, this, &MainWindow::onApiResponseReceived);
     //This loads the Api key and send it to caller
+    caller->clearApiKey();
     QString apiKey = caller->loadApiKey();
-
-    //connect action clearApiKey to slot
-    connect(actionClearApiKey, &QAction::triggered, caller, &ApiCaller::onClearApiKeyButtonCLicked);
-
     if(apiKey == "")//if no key is loaded, open key config window
     {
         qDebug() << "No API key loaded....";
@@ -84,7 +63,6 @@ MainWindow::MainWindow(QWidget *parent)
         apiKeyConfigWindow = new ApiKeyConfigWindow(this);
         //connect ApiKeyConfig key changes signal to ApiCaller so it can update json and update ApiCaller attribute
         connect(apiKeyConfigWindow, &ApiKeyConfigWindow::apiKeySet, apiCaller, &ApiCaller::onApiKeyChanged);
-        apiKeyConfigWindow->setWindowTitle(QString("API key configuration"));
         apiKeyConfigWindow->show();
 
     }else{
@@ -99,20 +77,7 @@ MainWindow::~MainWindow()
 //comment for testing
 void MainWindow::on_sendButton_clicked()
 {
-    if(apiCaller->isApiKeyEmpty())//if no key is loaded, open key config window
-    {
-        qDebug() << "No API key loaded....";
-        //init ApiKeyConfigWindow
-        apiKeyConfigWindow = new ApiKeyConfigWindow(this);
-        //connect ApiKeyConfig key changes signal to ApiCaller so it can update json and update ApiCaller attribute
-        connect(apiKeyConfigWindow, &ApiKeyConfigWindow::apiKeySet, apiCaller, &ApiCaller::onApiKeyChanged);
-        apiKeyConfigWindow->setWindowTitle(QString("API key configuration"));
-        apiKeyConfigWindow->show();
-        return;
 
-    }else{
-        qDebug() << "on_sendButton_clicked(): WE HAVE API KEY ";
-    }
     QString prompt = ui->promptTextBox->toPlainText();
     //clear prompt box after pressing enter
     ui->promptTextBox->clear();
@@ -129,21 +94,18 @@ void MainWindow::on_sendButton_clicked()
 void MainWindow::on_saveButton_clicked()
 {
     QString saveStream = ui->responseBox->toPlainText();
-
-    QString filePath = QFileDialog::getSaveFileName(this, "Save File", "newStory.txt", "Text Files (*.txt);;All Files (*)");
-    if (filePath.isEmpty()) return; // User canceled save
-
-    QFile file(filePath);
+    //QString filepath = "newStory.txt";
+    QFile file("newStory.txt");
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream stream(&file);
         stream << saveStream;
-        file.flush();  // Ensure data is written
         file.close();
         qDebug() << "Successfully wrote to file(Origin: MainWindow::on_saveButtonClicked()";
     }
     else
     {
+        // Handling an error
         qDebug() << "Failed to open file for writing:" << file.errorString();
     }
 }
@@ -190,7 +152,9 @@ void MainWindow::onApiResponseReceived(QString response)
         container->addQString(pageText[i]);
     }
 
+
 }
+
 
 
 void MainWindow::on_actionFile_triggered()
@@ -202,20 +166,48 @@ void MainWindow::clearResponseWindow(){
     ui->responseBox->clear();
 }
 
-void MainWindow::imageHandler()
+void MainWindow::updateImage()
 {
-    //wont be file, will be feed of images generated
-    QString filename = "xxxxx";
-    QLabel* lbl = new QLabel(this);
-    //for showing in center
-    lbl->setAlignment(Qt::AlignCenter);
-    QPixmap pix;
+    scene->clear(); // Clear previous image
 
-    //if loaded okay
-    if(pix.load(filename))
+    // Ensure the index is valid before accessing images
+    QImage image = mediaContainer.getImage(currentIndex);
+    if (image.isNull() == false)
     {
-        //scaling
-        pix = pix.scaled(lbl->size(),Qt::KeepAspectRatio);
-        lbl->setPixmap(pix);
+        QPixmap pixmap = QPixmap::fromImage(image);
+        QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pixmap);
+        scene->addItem(item); // Add image to the scene
+    }
+
+    ui->graphicsView->setScene(scene);
+    ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+}
+
+// Load images from StoryMediaContainer
+void MainWindow::imageHandler(StoryMediaContainer &container)
+{
+    mediaContainer = container; // Store the media container
+    currentIndex = 0;           // Start from the first image
+
+    scene = new QGraphicsScene(this); // Create scene
+    updateImage(); // Display the first image
+}
+
+void MainWindow::nextImage()
+{
+    if (currentIndex < mediaContainer.getSize() - 1)
+    {
+        currentIndex++; // Move to the next image
+        updateImage();  // Refresh display
     }
 }
+
+void MainWindow::prevImage()
+{
+    if (currentIndex > 0) // Ensure we don’t go below 0
+    {
+        currentIndex--; // Move to the previous image
+        updateImage();  // Refresh display
+    }
+}
+
