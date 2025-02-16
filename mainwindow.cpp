@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
         "QTextBrowser::selection { background-color: darkgray; color: black; }"
         );
 
-
+  
 
     //set prompt text box style
     ui->promptTextBox->setStyleSheet(
@@ -36,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
         "} "
         );
     //set style sheet for send button
-
     ui->sendButton->setStyleSheet(
         "QPushButton {"
         "   border-radius: 35px; "  // Half of the width/height
